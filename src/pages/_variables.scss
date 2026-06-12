@@ -1,10 +1,15 @@
 $primary-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-$title-font: 'Inter', sans-serif;
+$display-font: 'Space Grotesk', $primary-font;
+$mono-font: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-$bg-color: #fafafa;
-$text-color: #1a1a1a;
-$primary-color: #0d6efd;
-$secondary-color: #6c757d;
-$border-color: #e5e5e5;
+$bg-color: #05070d;
+$bg-elevated: #0a0e1a;
+$text-color: #cbd5e1;
+$heading-color: #f8fafc;
+$primary-color: #22d3ee;   // electric cyan
+$secondary-color: #818cf8; // indigo
+$tertiary-color: #c084fc;  // violet
+$muted-color: #64748b;
+$border-color: rgba(148, 163, 184, 0.12);
 $white: #fff;
 $max-width: 1600px;

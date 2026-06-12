@@ -1,17 +1,19 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import {Title} from "../components/Title";
+import {Seo} from "../components/Seo";
 import {useLanguage} from "../helpers/useLanguage";
 
 const translations = {
   en: {
     pageTitle: "Op-Ed",
+    kicker: "// public debate · technology · society",
     description: "Opinion columns on technology, artificial intelligence, innovation, and their impact on Chilean society.",
     readMore: "Read article",
     publishedIn: "Published in"
   },
   es: {
     pageTitle: "Columnas de Opinión",
+    kicker: "// debate público · tecnología · sociedad",
     description: "Columnas de opinión sobre tecnología, inteligencia artificial, innovación y su impacto en la sociedad chilena.",
     readMore: "Leer artículo",
     publishedIn: "Publicado en"
@@ -23,6 +25,27 @@ const opEdColumns = [
   {
     year: 2026,
     columns: [
+      {
+        title: "¿Serán las licencias de inteligencia artificial el nuevo impuesto al empleo?",
+        description: "La combinación de mayor costo de acceso, menor poder de negociación salarial y percepción de una brecha de productividad insalvable configura un terreno fértil para el descontento social y el auge de narrativas populistas.",
+        publication: "El Mostrador",
+        date: "24 de Mayo, 2026",
+        url: "https://www.elmostrador.cl/noticias/opinion/columnas/2026/05/24/seran-las-licencias-de-inteligencia-artificial-el-nuevo-impuesto-al-empleo/"
+      },
+      {
+        title: "Fin de la gratuidad para mayores de 30 años: un portazo a la clase media técnica",
+        description: "Un adulto de 30 años que estudia una carrera técnica no solo busca un título; está sacrificando tiempo de crianza o trabajo para mejorar su futuro en un sistema que hoy le cierra la puerta.",
+        publication: "El Mostrador",
+        date: "31 de Marzo, 2026",
+        url: "https://www.elmostrador.cl/noticias/opinion/columnas/2026/03/31/fin-de-la-gratuidad-para-mayores-de-30-anos-un-portazo-a-la-clase-media-tecnica/"
+      },
+      {
+        title: "La rebelión de la humanidad contra las máquinas: ¿un futuro distópico?",
+        description: "El temor al reemplazo por la inteligencia artificial no es infundado; se percibe cotidianamente, especialmente en zonas alejadas del desarrollo tecnológico.",
+        publication: "El Mostrador",
+        date: "16 de Marzo, 2026",
+        url: "https://www.elmostrador.cl/noticias/opinion/columnas/2026/03/16/la-rebelion-de-la-humanidad-contra-las-maquinas-un-futuro-distopico/"
+      },
       {
         title: "El laberinto de la movilidad social y el rol de las universidades regionales",
         description: "El lugar de origen de un estudiante dicta el destino: mientras los estudiantes con mejores condiciones preexistentes cuentan con todas las ventajas estructurales, otros deben compensar con un desempeño excepcional las carencias de un sistema escolar desigual.",
@@ -99,13 +122,6 @@ const opEdColumns = [
         url: "https://www.elmostrador.cl/noticias/opinion/columnas/2025/10/18/como-ganar-una-eleccion-presidencial-divide-y-venceras/"
       },
       {
-        title: "Elecciones parlamentarias: competencia por escaños",
-        description: "Un análisis de la competencia electoral parlamentaria en Chile utilizando datos de StreamData.",
-        publication: "La Segunda",
-        date: "Agosto, 2025",
-        url: "https://www.lasegunda.com/Noticias/Opinion/2025/08/1107793/elecciones-parlamentarias-competencia-escanos-streamdata"
-      },
-      {
         title: "Primarias presidenciales: ¿para qué?",
         description: "Reflexión sobre el rol y la efectividad de las primarias presidenciales en el sistema político chileno.",
         publication: "El Mostrador",
@@ -128,68 +144,67 @@ function OpEdPage() {
   const t = translations[language];
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 relative">
+    <div className="min-h-screen text-slate-300 relative">
+      <div className="bg-grid" />
+      <div className="bg-orbs" />
       <Navbar language={language} setLanguage={setLanguage} />
 
-      <main className="max-w-4xl mx-auto px-6 md:px-8 py-16">
+      <main className="relative z-10 max-w-4xl mx-auto px-6 md:px-8 py-16">
         {/* Header Section */}
-        <div className="mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
-            {t.pageTitle}
+        <div className="mb-20 rise rise-1">
+          <p className="font-mono text-xs text-cyan-400/90 tracking-wide mb-6">
+            {t.kicker}
+          </p>
+          <h1
+            className="text-4xl md:text-6xl font-bold tracking-tight text-slate-50 mb-6"
+            style={{fontFamily: "'Space Grotesk', sans-serif"}}
+          >
+            <span className="text-gradient">{t.pageTitle}</span>
           </h1>
-          <p className="text-xl text-slate-600 leading-relaxed max-w-2xl">
+          <p className="text-lg text-slate-400 leading-relaxed max-w-2xl">
             {t.description}
           </p>
         </div>
 
         {/* Op-Ed Columns by Year */}
-        <div className="space-y-16">
+        <div className="space-y-20 rise rise-2">
           {opEdColumns.map((yearData) => (
-            <section key={yearData.year} className="space-y-8">
-              <h2 className="text-2xl font-bold text-slate-900 border-b border-slate-100 pb-4">
-                {yearData.year}
-              </h2>
-              
-              <div className="grid grid-cols-1 gap-8">
+            <section key={yearData.year}>
+              <div className="section-index mb-10">
+                <span>{yearData.year}</span>
+              </div>
+
+              <div className="grid grid-cols-1 gap-5">
                 {yearData.columns.map((column, index) => (
-                  <article
+                  <a
                     key={index}
-                    className="group"
+                    href={column.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="glass-card block p-6 group"
                   >
-                    <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-y-2 mb-2">
-                       <a
-                        href={column.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-xl font-semibold text-slate-900 group-hover:text-blue-600 transition-colors"
-                      >
+                    <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-y-2 mb-3">
+                      <h3 className="text-lg font-semibold text-slate-100 group-hover:text-cyan-200 transition-colors leading-snug max-w-2xl">
                         {column.title}
-                      </a>
-                      <div className="text-sm text-slate-400 shrink-0">
+                      </h3>
+                      <span className="font-mono text-xs text-slate-500 shrink-0">
                         {column.date}
-                      </div>
+                      </span>
                     </div>
 
-                    <div className="flex items-center gap-2 text-sm text-slate-500 mb-3">
-                       <span className="font-medium text-slate-700">{column.publication}</span>
+                    <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-violet-300/80 mb-3">
+                      {column.publication}
                     </div>
-                    
-                    <p className="text-base text-slate-600 leading-relaxed max-w-3xl">
+
+                    <p className="text-sm text-slate-400 leading-relaxed max-w-3xl mb-4">
                       {column.description}
                     </p>
-                    
-                    <div className="mt-4">
-                      <a
-                        href={column.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
-                      >
-                        {t.readMore}
-                        <span>→</span>
-                      </a>
-                    </div>
-                  </article>
+
+                    <span className="inline-flex items-center gap-1.5 font-mono text-xs text-cyan-400 group-hover:text-cyan-300 group-hover:gap-2.5 transition-all">
+                      {t.readMore}
+                      <span aria-hidden="true">→</span>
+                    </span>
+                  </a>
                 ))}
               </div>
             </section>
@@ -201,3 +216,11 @@ function OpEdPage() {
 }
 
 export default OpEdPage;
+
+export const Head = () => (
+  <Seo
+    title="Op-Ed"
+    description="Opinion columns by Carlos Navarrete on technology, artificial intelligence, innovation, and their impact on Chilean society, published in El Mostrador and other outlets."
+    pathname="/op-ed/"
+  />
+);

@@ -1,54 +1,52 @@
-import * as React from "react"
-import { Link } from "gatsby"
+import * as React from "react";
+import {Link} from "gatsby";
+import Navbar from "../components/Navbar";
+import {Seo} from "../components/Seo";
+import {useLanguage} from "../helpers/useLanguage";
 
-// styles
-const pageStyles = {
-  color: "#232129",
-  padding: "96px",
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-}
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-}
+const translations = {
+  en: {
+    message: "This route does not exist in the system.",
+    home: "Return home"
+  },
+  es: {
+    message: "Esta ruta no existe en el sistema.",
+    home: "Volver al inicio"
+  }
+};
 
-const paragraphStyles = {
-  marginBottom: 48,
-}
-const codeStyles = {
-  color: "#8A6534",
-  padding: 4,
-  backgroundColor: "#FFF4DB",
-  fontSize: "1.25rem",
-  borderRadius: 4,
-}
-
-// markup
 const NotFoundPage = () => {
-  return (
-    <main style={pageStyles}>
-      <title>Not found</title>
-      <h1 style={headingStyles}>Page not found</h1>
-      <p style={paragraphStyles}>
-        Sorry{" "}
-        <span role="img" aria-label="Pensive emoji">
-          😔
-        </span>{" "}
-        we couldn’t find what you were looking for.
-        <br />
-        {process.env.NODE_ENV === "development" ? (
-          <>
-            <br />
-            Try creating a page in <code style={codeStyles}>src/pages/</code>.
-            <br />
-          </>
-        ) : null}
-        <br />
-        <Link to="/">Go home</Link>.
-      </p>
-    </main>
-  )
-}
+  const [language, setLanguage] = useLanguage();
+  const t = translations[language];
 
-export default NotFoundPage
+  return (
+    <div className="min-h-screen text-slate-300 relative">
+      <div className="bg-grid" />
+      <div className="bg-orbs" />
+      <Navbar language={language} setLanguage={setLanguage} />
+
+      <main className="relative z-10 max-w-4xl mx-auto px-6 md:px-8 py-32 text-center">
+        <p className="font-mono text-xs text-cyan-400/90 tracking-wide mb-6">
+          // error
+        </p>
+        <h1
+          className="text-7xl md:text-9xl font-bold tracking-tight mb-6"
+          style={{fontFamily: "'Space Grotesk', sans-serif"}}
+        >
+          <span className="text-gradient">404</span>
+        </h1>
+        <p className="font-mono text-sm text-slate-500 mb-10">
+          {t.message}
+        </p>
+        <Link to="/" className="chip inline-flex items-center gap-2">
+          <span aria-hidden="true">←</span>
+          {t.home}
+        </Link>
+      </main>
+    </div>
+  );
+};
+
+export default NotFoundPage;
+
+export const Head = () => <Seo title="404" pathname="/404/" />;

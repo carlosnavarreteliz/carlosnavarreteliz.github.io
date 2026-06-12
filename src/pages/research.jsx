@@ -1,20 +1,22 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import {Title} from "../components/Title";
+import {Seo} from "../components/Seo";
 import {useLanguage} from "../helpers/useLanguage";
 
 const translations = {
   en: {
     pageTitle: "Research",
+    kicker: "// publications · polarization · economic geography · ai",
     description: "My research focuses on addressing big problems that help us better understand and solve real-life issues in Chile, including computational social science, polarization, economic geography, and the application of artificial intelligence to complex socio-economic systems.",
     viewGoogleScholar: "View full profile on",
-    publications: "Publications"
+    citations: "citations"
   },
   es: {
     pageTitle: "Investigación",
+    kicker: "// publicaciones · polarización · geografía económica · ia",
     description: "Mi investigación se enfoca en abordar grandes problemas que nos ayudan a comprender y resolver mejor los desafíos de la vida real en Chile, incluyendo ciencia social computacional, polarización, geografía económica y la aplicación de inteligencia artificial a sistemas socioeconómicos complejos.",
     viewGoogleScholar: "Ver perfil completo en",
-    publications: "Publicaciones"
+    citations: "citas"
   }
 };
 
@@ -117,56 +119,75 @@ function ResearchPage() {
   const t = translations[language];
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 relative">
+    <div className="min-h-screen text-slate-300 relative">
+      <div className="bg-grid" />
+      <div className="bg-orbs" />
       <Navbar language={language} setLanguage={setLanguage} />
 
-      <main className="max-w-4xl mx-auto px-6 md:px-8 py-16">
+      <main className="relative z-10 max-w-4xl mx-auto px-6 md:px-8 py-16">
         {/* Header Section */}
-        <div className="mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
-            {t.pageTitle}
+        <div className="mb-20 rise rise-1">
+          <p className="font-mono text-xs text-cyan-400/90 tracking-wide mb-6">
+            {t.kicker}
+          </p>
+          <h1
+            className="text-4xl md:text-6xl font-bold tracking-tight text-slate-50 mb-6"
+            style={{fontFamily: "'Space Grotesk', sans-serif"}}
+          >
+            <span className="text-gradient">{t.pageTitle}</span>
           </h1>
-          <p className="text-xl text-slate-600 leading-relaxed max-w-2xl">
+          <p className="text-lg text-slate-400 leading-relaxed max-w-2xl mb-6">
             {t.description}
+          </p>
+          <p className="text-sm text-slate-500">
+            {t.viewGoogleScholar}{" "}
+            <a
+              href="https://scholar.google.com/citations?user=JqTxoC0AAAAJ&hl=en"
+              target="_blank"
+              rel="noreferrer"
+              className="text-cyan-300 hover:text-cyan-200 font-medium"
+            >
+              Google Scholar ↗
+            </a>
           </p>
         </div>
 
         {/* Publications by Year */}
-        <div className="space-y-16">
+        <div className="space-y-20 rise rise-2">
           {publications.map((yearData) => (
-            <section key={yearData.year} className="space-y-8">
-              <h2 className="text-2xl font-bold text-slate-900 border-b border-slate-100 pb-4">
-                {yearData.year}
-              </h2>
-              
-              <div className="grid grid-cols-1 gap-8">
+            <section key={yearData.year}>
+              <div className="section-index mb-10">
+                <span>{yearData.year}</span>
+              </div>
+
+              <div className="grid grid-cols-1 gap-5">
                 {yearData.papers.map((paper, index) => (
-                  <article
+                  <a
                     key={index}
-                    className="group"
+                    href={paper.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="glass-card block p-6 group"
                   >
-                    <h3 className="text-xl font-semibold text-slate-900 mb-2 leading-tight">
-                      <a
-                        href={paper.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="hover:text-blue-700 transition-colors"
-                      >
-                        {paper.title}
-                      </a>
+                    <h3 className="text-lg font-semibold text-slate-100 group-hover:text-cyan-200 transition-colors leading-snug mb-3">
+                      {paper.title}
                     </h3>
-                    
-                    <p className="text-base text-slate-600 mb-3 leading-relaxed">
+
+                    <p className="text-sm text-slate-400 mb-4 leading-relaxed">
                       {paper.authors}
                     </p>
-                    
-                    <div className="flex flex-wrap items-center gap-x-2 text-sm text-slate-500">
-                      <span className="font-medium italic text-slate-800">{paper.journal}</span>
-                      {paper.volume && <span>{paper.volume}</span>}
-                      {paper.pages && <span>{paper.pages}</span>}
-                      <span className="text-slate-400">({paper.year})</span>
+
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs">
+                      <span className="text-violet-300/90 italic">{paper.journal}</span>
+                      {paper.volume && <span className="text-slate-500">{paper.volume}</span>}
+                      {paper.pages && <span className="text-slate-500">{paper.pages}</span>}
+                      {paper.citations > 0 && (
+                        <span className="ml-auto px-2 py-0.5 rounded-full border border-cyan-400/20 text-cyan-400/90 text-[10px]">
+                          {paper.citations} {t.citations}
+                        </span>
+                      )}
                     </div>
-                  </article>
+                  </a>
                 ))}
               </div>
             </section>
@@ -178,3 +199,11 @@ function ResearchPage() {
 }
 
 export default ResearchPage;
+
+export const Head = () => (
+  <Seo
+    title="Research"
+    description="Publications by Carlos Navarrete on computational social science, electoral divisiveness, political polarization, economic geography, and artificial intelligence — including work in Nature Human Behaviour, Research Policy, and Global Environmental Change."
+    pathname="/research/"
+  />
+);

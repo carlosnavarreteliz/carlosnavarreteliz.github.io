@@ -1,9 +1,9 @@
 import React from "react";
 
 export function SocialMedia({data = [], className = ""}) {
-  if (!Array.isArray(data) || data.length === 0) 
+  if (!Array.isArray(data) || data.length === 0)
     return null;
-  
+
   return (
     <ul
       className={
@@ -21,18 +21,10 @@ export function SocialMedia({data = [], className = ""}) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={name}
-              className="
-                inline-flex items-center gap-1
-                text-sm font-medium text-slate-600
-                hover:text-blue-700 hover:underline
-                transition-colors duration-200
-              "
+              className="chip inline-flex items-center gap-1.5"
             >
               {name}
-              <span
-                className="text-[10px] opacity-70"
-                aria-hidden="true"
-              >
+              <span className="text-[9px] opacity-70" aria-hidden="true">
                 ↗
               </span>
             </a>

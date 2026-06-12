@@ -25,6 +25,7 @@
     "gatsby-plugin-manifest": "^5.16.0",
     "gatsby-plugin-postcss": "^6.16.0",
     "gatsby-plugin-sass": "^6.16.0",
+    "gatsby-plugin-sitemap": "^6.16.0",
     "lmdb": "^3.5.1",
     "msgpackr": "^1.11.8",
     "postcss": "^8.5.6",
