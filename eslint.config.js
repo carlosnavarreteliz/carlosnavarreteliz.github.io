@@ -27,7 +27,13 @@ module.exports = [
       ecmaVersion: "latest",
       sourceType: "module",
       parserOptions: {ecmaFeatures: {jsx: true}},
-      globals: {window: "readonly", document: "readonly", navigator: "readonly", localStorage: "readonly"},
+      globals: {
+        window: "readonly",
+        document: "readonly",
+        navigator: "readonly",
+        localStorage: "readonly",
+        IntersectionObserver: "readonly",
+      },
     },
     plugins: {
       react,

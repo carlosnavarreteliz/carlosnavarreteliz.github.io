@@ -1,145 +1,129 @@
 import React, {useState, useEffect} from "react";
+import Logo from "./Logo";
 
 const navLabels = {
   en: [
-    {href: "/", label: "About"},
-    {href: "/#projects", label: "AI & Data"},
+    {href: "/#lines", label: "Research"},
+    {href: "/#method", label: "Method"},
+    {href: "/#work", label: "Work"},
+    {href: "/#writing", label: "Writing"},
     {href: "/#trajectory", label: "Trajectory"},
-    {href: "/op-ed/", label: "Writing"},
-    {href: "/research/", label: "Research"},
-    {href: "/courses/", label: "Teaching"}
+    {href: "/#archive", label: "Archive"},
+    {href: "/research/", label: "Publications"},
+    {href: "/courses/", label: "Teaching"},
   ],
   es: [
-    {href: "/", label: "Perfil"},
-    {href: "/#projects", label: "IA y Datos"},
+    {href: "/#lines", label: "Investigación"},
+    {href: "/#method", label: "Método"},
+    {href: "/#work", label: "Proyectos"},
+    {href: "/#writing", label: "Columnas"},
     {href: "/#trajectory", label: "Trayectoria"},
-    {href: "/op-ed/", label: "Columnas"},
-    {href: "/research/", label: "Investigación"},
-    {href: "/courses/", label: "Docencia"}
-  ]
+    {href: "/#archive", label: "Archivo"},
+    {href: "/research/", label: "Publicaciones"},
+    {href: "/courses/", label: "Docencia"},
+  ],
+};
+
+const roleLine = {
+  en: "assistant professor",
+  es: "profesor asistente",
 };
 
 export default function Navbar({language = "en", setLanguage}) {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [pinned, setPinned] = useState(false);
+  const [open, setOpen] = useState(false);
   const links = navLabels[language] || navLabels.en;
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 12);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setPinned(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, {passive: true});
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // In-page hash jumps do not unmount this component, so close on them too.
+  useEffect(() => {
+    if (!open) return;
+    const close = () => setOpen(false);
+    window.addEventListener("hashchange", close);
+    return () => window.removeEventListener("hashchange", close);
+  }, [open]);
+
+  // Clicking the brand while already on the landing page is a same-document
+  // navigation, so the browser leaves the scroll position exactly where it was
+  // — click the logo from the footer and nothing appears to happen. Take it
+  // back to the top ourselves. `scrollTo` with the default behaviour follows
+  // the stylesheet's `scroll-behavior`, which is already switched off under
+  // prefers-reduced-motion.
+  const onBrandClick = (event) => {
+    if (window.location.pathname !== "/") return;
+    event.preventDefault();
+    setOpen(false);
+    if (window.location.hash)
+      window.history.pushState(null, "", window.location.pathname);
+    window.scrollTo(0, 0);
+  };
 
   return (
     <>
-      <nav
-        className="fixed top-0 inset-x-0 z-50 transition-all duration-200 bg-[#faf8f5]/95 backdrop-blur"
-        style={{
-          borderBottom: "1px solid #e5ddd0",
-          boxShadow: isScrolled ? "0 4px 20px rgba(27,42,74,0.08)" : "none"
-        }}
-      >
-        <div className="h-1" style={{background: "#a41034"}} aria-hidden="true" />
-        <div className="mx-auto max-w-6xl px-6 lg:px-8 h-[72px] flex items-center justify-between">
-          <a href="/" className="flex flex-col leading-none group">
-            <span
-              className="text-[19px] font-semibold tracking-tight text-[#161412]"
-              style={{fontFamily: "'Source Serif 4', Georgia, serif"}}
-            >
-              Carlos Navarrete
-            </span>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#a41034] mt-1">
-              {language === "es" ? "Inteligencia Artificial · UdeC" : "Artificial Intelligence · UdeC"}
+      <nav className={`nav${pinned ? " nav--pinned" : ""}`}>
+        <div className="wrap nav__inner">
+          <a href="/" className="nav__brand" onClick={onBrandClick} aria-label="Carlos Navarrete — home">
+            <Logo size={32} />
+            <span style={{minWidth: 0}}>
+              <span className="nav__name">Carlos Navarrete</span>
+              <span className="nav__role">{roleLine[language]}</span>
             </span>
           </a>
 
-          <div className="hidden md:flex items-center gap-7">
+          <div className="nav__links">
             {links.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-[12.5px] font-semibold uppercase tracking-[0.12em] text-[#57534e] hover:text-[#a41034] transition-colors"
-              >
+              <a key={link.href} href={link.href} className="nav__link">
                 {link.label}
               </a>
             ))}
-
-            {language !== undefined && setLanguage && (
-              <div className="flex items-center ml-2 rounded-full border border-[#e5ddd0] bg-white p-0.5 text-[11px] font-semibold">
-                <button
-                  onClick={() => setLanguage("en")}
-                  className={`px-2.5 py-1 rounded-full transition-all ${
-                    language === "en"
-                      ? "bg-[#a41034] text-white"
-                      : "text-[#a8a29a] hover:text-[#57534e]"
-                  }`}
-                >
-                  EN
-                </button>
-                <button
-                  onClick={() => setLanguage("es")}
-                  className={`px-2.5 py-1 rounded-full transition-all ${
-                    language === "es"
-                      ? "bg-[#a41034] text-white"
-                      : "text-[#a8a29a] hover:text-[#57534e]"
-                  }`}
-                >
-                  ES
-                </button>
-              </div>
-            )}
           </div>
 
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-[#57534e] hover:text-[#a41034] transition-colors"
-            aria-label="Toggle menu"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isMobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
-        </div>
-
-        {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-[#e5ddd0] bg-white px-6 py-5 space-y-4">
-            {links.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="block text-[13px] font-semibold uppercase tracking-[0.12em] text-[#57534e] hover:text-[#a41034] transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
-            {language !== undefined && setLanguage && (
-              <div className="flex items-center gap-2 pt-2 text-[12px] font-semibold">
-                <button
-                  onClick={() => setLanguage("en")}
-                  className={language === "en" ? "text-[#a41034]" : "text-[#a8a29a]"}
-                >
+          <div style={{display: "flex", alignItems: "center", gap: "0.6rem"}}>
+            {setLanguage && (
+              <div className="nav__lang" role="group" aria-label="Language">
+                <button type="button" onClick={() => setLanguage("en")} aria-pressed={language === "en"}>
                   EN
                 </button>
-                <span className="text-[#e5ddd0]">/</span>
-                <button
-                  onClick={() => setLanguage("es")}
-                  className={language === "es" ? "text-[#a41034]" : "text-[#a8a29a]"}
-                >
+                <button type="button" onClick={() => setLanguage("es")} aria-pressed={language === "es"}>
                   ES
                 </button>
               </div>
             )}
+
+            <button
+              type="button"
+              className="nav__burger"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-controls="nav-drawer"
+              aria-label={language === "es" ? "Menú" : "Menu"}
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+          </div>
+        </div>
+
+        {open && (
+          <div id="nav-drawer" className="nav__drawer">
+            <div className="wrap">
+              {links.map((link) => (
+                <a key={link.href} href={link.href} onClick={() => setOpen(false)}>
+                  {link.label}
+                </a>
+              ))}
+            </div>
           </div>
         )}
       </nav>
-      <div className="h-[76px]" />
+      <div className="nav__spacer" />
     </>
   );
 }

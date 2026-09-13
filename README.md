@@ -18,6 +18,7 @@ Package manager: **pnpm** (enforced via `packageManager` + `.npmrc`).
 pnpm install
 pnpm dev        # http://localhost:8000
 pnpm build      # static output in public/
+pnpm build:clean # same, but wipes public/ first — use before deploying removals
 pnpm serve      # preview the production build
 pnpm lint       # eslint (flat config)
 pnpm clean      # gatsby clean

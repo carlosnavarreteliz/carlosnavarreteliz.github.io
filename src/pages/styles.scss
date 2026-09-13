@@ -1,315 +1,1629 @@
 @use "variables" as *;
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap');
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   carlosnavarrete.cl — design system
+
+   Adapted from the reference landing page: soft rounded cards floating on a
+   tinted ground, centred headings in wide-tracked capitals, numbered milestone
+   cards with mixed fills, slash micro-labels, and a giant ghosted word behind
+   the portrait. The reference's cream/olive is re-keyed to a tonal blue.
+
+   Nothing here shouts. Contrast is spent only where it carries meaning.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: $primary-font;
-  background-color: $bg-color;
-  color: $text-color;
-  line-height: 1.7;
-  font-size: 1rem;
   margin: 0;
   padding: 0 !important;
+  background: $paper;
+  color: $slate;
+  font-family: $font-text;
+  font-size: 17px;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-::selection {
-  background: rgba(164, 16, 52, 0.14);
-  color: $heading-color;
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: $font-display;
+  color: $deep;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+  margin: 0;
+  text-wrap: balance;
 }
 
-h1, h2, h3, h4 {
-  font-family: $display-font;
-  color: $heading-color;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+p {
+  margin: 0;
+  text-wrap: pretty;
 }
 
 a {
-  color: $primary-color;
+  color: inherit;
   text-decoration: none;
-  transition: color 0.18s ease;
-  &:hover {
-    color: $primary-dark;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+::selection {
+  background: $accent-wash;
+  color: $ink;
+}
+
+:focus-visible {
+  outline: 2px solid $accent;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Layout ───────────────────────────────────────────────────────────────── */
+
+.wrap {
+  width: 100%;
+  max-width: $wrap;
+  margin: 0 auto;
+  padding-inline: 20px;
+
+  @media (min-width: 900px) {
+    padding-inline: 40px;
   }
 }
 
-// ---- HBS academic design system (light) ----
-
-// Subtle paper texture bands; dark grid/orbs disabled
-.bg-grid,
-.bg-orbs {
-  display: none;
+.wrap--narrow {
+  max-width: 920px;
 }
 
-.paper-band {
-  background: $bg-warm;
-  border-top: 1px solid $border-color;
-  border-bottom: 1px solid $border-color;
+.section {
+  padding-block: clamp(3.5rem, 8vw, 7rem);
 }
 
-// Thin crimson rule used above footers / under eyebrows
-.crimson-rule {
-  height: 3px;
-  background: $primary-color;
-  width: 56px;
+.band-soft {
+  background: $paper-soft;
 }
 
-.eyebrow {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
+.band-sink {
+  background: $sink;
+}
+
+/* ── Type scale ───────────────────────────────────────────────────────────── */
+
+.t-name {
+  font-family: $font-display;
+  font-weight: 500;
+  font-size: clamp(2rem, 4.6vw, 3.15rem);
+  line-height: 1.06;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: $primary-color;
+  color: $deep;
 }
 
-.lede {
-  font-family: $display-font;
-  font-size: 1.35rem;
-  line-height: 1.55;
-  color: $heading-color;
-}
-
-// Small-caps section index, e.g. "01 · AI & Data Projects"
-.section-index {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.24em;
+// Section headings: wide-tracked capitals, centred, the reference's signature.
+.t-head {
+  font-family: $font-display;
+  font-weight: 400;
+  font-size: clamp(1.45rem, 3.1vw, 2.35rem);
+  line-height: 1.24;
+  letter-spacing: 0.055em;
   text-transform: uppercase;
-  color: $primary-color;
-  display: flex;
+  color: $deep;
+}
+
+.t-head--tight {
+  letter-spacing: 0.035em;
+}
+
+// The second line of a two-line heading sits slightly right, like the ref.
+.t-head__b {
+  display: block;
+
+  @media (min-width: 760px) {
+    padding-left: 2.5em;
+  }
+}
+
+.t-sub {
+  font-family: $font-display;
+  font-weight: 400;
+  font-size: clamp(1.05rem, 1.9vw, 1.3rem);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: $deep;
+}
+
+.t-body {
+  font-size: 1rem;
+  line-height: 1.72;
+  color: $slate;
+}
+
+.t-small {
+  font-size: 0.9375rem;
+  line-height: 1.68;
+  color: $steel;
+}
+
+.t-micro {
+  font-family: $font-mono;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $haze;
+  font-variant-numeric: tabular-nums;
+}
+
+// The accent hand — short asides only, never a paragraph.
+.t-accent {
+  font-family: $font-accent;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: $accent;
+  letter-spacing: 0.01em;
+}
+
+/* ── Slash label: / like this / ───────────────────────────────────────────── */
+
+.slash {
+  display: inline-flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-
-  &::after {
-    content: "";
-    height: 1px;
-    flex: 1;
-    background: $border-strong;
-  }
-}
-
-// Classic white card
-.glass-card {
-  background: $bg-elevated;
-  border: 1px solid $border-color;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 2px rgba(22, 20, 18, 0.04);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
-
-  &:hover {
-    border-color: $border-strong;
-    box-shadow: 0 10px 28px rgba(27, 42, 74, 0.10);
-    transform: translateY(-1px);
-  }
-}
-
-// Portrait: classic academic frame with caption
-.photo-frame {
-  position: relative;
-  background: $white;
-  padding: 0.6rem 0.6rem 0 0.6rem;
-  border: 1px solid $border-color;
-  border-radius: 0.35rem;
-  box-shadow: 0 18px 44px rgba(27, 42, 74, 0.14);
-
-  img {
-    display: block;
-    width: 100%;
-    border-radius: 0.2rem;
-    filter: none;
-  }
+  gap: 0.45rem;
+  font-family: $font-mono;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: $steel;
 
   &::before,
   &::after {
+    content: "/";
+    color: $haze;
+    font-weight: 400;
+  }
+}
+
+.slash--accent {
+  color: $accent;
+
+  &::before,
+  &::after {
+    color: $accent-wash;
+  }
+}
+
+.slash--light {
+  color: $block-haze;
+
+  &::before,
+  &::after {
+    color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+// A row of small italic tags, as flanking the ghost word in the reference.
+.tagrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.9rem;
+  font-family: $font-accent;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: $steel;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+
+    &::after {
+      content: "/";
+      color: $accent-wash;
+      font-style: normal;
+      font-size: 0.8rem;
+    }
+
+    &:last-child::after {
+      content: none;
+    }
+  }
+}
+
+/* ── Cards ────────────────────────────────────────────────────────────────── */
+
+.card {
+  background: $card;
+  border-radius: $radius;
+  border: 1px solid $line-soft;
+}
+
+.card--sink {
+  background: $sink;
+  border-color: transparent;
+}
+
+.card--mist {
+  background: $mist;
+  border-color: transparent;
+}
+
+.card--block {
+  background: $block;
+  border-color: transparent;
+  color: $block-text;
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: #fff;
+  }
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+
+.hero {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+
+  @media (min-width: 900px) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
+  }
+}
+
+.hero__panel {
+  position: relative;
+  background: $card;
+  border-radius: $radius-lg;
+  padding: clamp(1.75rem, 3.6vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  // A soft wash in the corner, standing in for the reference's leaf shadow.
+  &::before {
+    content: "";
+    position: absolute;
+    top: -30%;
+    right: -20%;
+    width: 65%;
+    height: 80%;
+    background: radial-gradient(circle at 60% 40%, rgba(46, 111, 158, 0.09), transparent 68%);
+    pointer-events: none;
+  }
+}
+
+.hero__figure {
+  position: relative;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  background: $mist;
+  min-height: 340px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+  }
+
+  // Keeps the corner links legible over any part of the photograph.
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 46%;
+    background: linear-gradient(to bottom, rgba(19, 33, 48, 0.5), transparent);
+    pointer-events: none;
+  }
+}
+
+.hero__figlinks {
+  position: absolute;
+  z-index: 2;
+  top: clamp(1.1rem, 2.4vw, 1.8rem);
+  left: clamp(1.1rem, 2.4vw, 1.8rem);
+  display: grid;
+  gap: 0.3rem;
+}
+
+.hero__figlink {
+  font-family: $font-mono;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.hero__figsocial {
+  position: absolute;
+  z-index: 2;
+  top: clamp(1.1rem, 2.4vw, 1.8rem);
+  right: clamp(1.1rem, 2.4vw, 1.8rem);
+  display: flex;
+  gap: 0.4rem;
+}
+
+.hero__orb {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  color: $deep;
+  font-family: $font-mono;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    background: $accent;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+}
+
+.hero__idcard {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.hero__thumb {
+  width: 58px;
+  height: 58px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex: none;
+  border: 1px solid $line;
+}
+
+/* ── Ghost word band ──────────────────────────────────────────────────────── */
+
+.ghost {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding-block: clamp(2rem, 5vw, 3.5rem);
+}
+
+.ghost__word {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  font-family: $font-display;
+  font-weight: 500;
+  font-size: clamp(3.5rem, 13vw, 11rem);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: rgba(46, 111, 158, 0.1);
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+
+  // On a narrow screen the copy sits right on top of it, so it goes away
+  // rather than competing with the text it is meant to sit behind.
+  @media (max-width: 759px) {
     display: none;
   }
 }
 
-.photo-caption {
-  font-size: 0.78rem;
-  color: $muted-color;
-  padding: 0.7rem 0.3rem 0.9rem 0.3rem;
-  line-height: 1.5;
-}
-
-// Buttons
-.btn-crimson {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: $primary-color;
-  color: $white !important;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  padding: 0.7rem 1.4rem;
-  border-radius: 0.3rem;
-  border: 1px solid $primary-color;
-  transition: background 0.2s ease;
-
-  &:hover {
-    background: $primary-dark;
-    border-color: $primary-dark;
-    color: $white !important;
-  }
-}
-
-.btn-outline {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: transparent;
-  color: $heading-color !important;
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 0.7rem 1.4rem;
-  border-radius: 0.3rem;
-  border: 1px solid $border-strong;
-  transition: border-color 0.2s ease, background 0.2s ease;
-
-  &:hover {
-    border-color: $heading-color;
-    background: $white;
-    color: $heading-color !important;
-  }
-}
-
-// Mono chip / tag -> classic outline pill
-.chip {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  padding: 0.35rem 0.8rem;
-  border-radius: 9999px;
-  border: 1px solid $border-strong;
-  color: $text-color;
-  background: $white;
-  transition: border-color 0.2s ease;
-
-  &:hover {
-    border-color: $primary-color;
-    color: $primary-color;
-    box-shadow: none;
-  }
-}
-
-// Timeline (trayectoria)
-.timeline {
+.ghost__stack {
   position: relative;
-  padding-left: 1.75rem;
+  z-index: 1;
+  display: grid;
+  gap: 1.35rem;
+  justify-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 68ch;
+  margin-inline: auto;
+}
+
+/* ── Milestones: the numbered, staggered cards ────────────────────────────── */
+
+.miles {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr);
+
+  @media (min-width: 700px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1020px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.mile {
+  position: relative;
+  border-radius: $radius;
+  padding: clamp(1.4rem, 2.4vw, 1.9rem);
+  display: flex;
+  flex-direction: column;
+  background: $card;
+  border: 1px solid $line-soft;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  min-height: 210px;
+}
+
+// Some cards take a fill, so the grid reads as a composition rather than a row
+// of identical boxes — the reference's mixed-fill trick.
+.mile--mist {
+  background: $mist;
+  border-color: transparent;
+}
+
+.mile--block {
+  background: $block;
+  border-color: transparent;
+  color: $block-text;
+
+  .mile__title {
+    color: #fff;
+  }
+
+  .mile__num,
+  .mile__meta {
+    color: $block-haze;
+  }
+
+  .mile__text {
+    color: $block-text;
+  }
+
+  .mile__year {
+    color: $accent-wash;
+  }
+}
+
+a.mile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 34px rgba(20, 33, 46, 0.09);
+}
+
+.mile__num {
+  font-family: $font-mono;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: $haze;
+  margin-bottom: 0.9rem;
+
+  &::before {
+    content: "/ ";
+    color: $accent-wash;
+  }
+}
+
+.mile__year {
+  font-family: $font-accent;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: $accent;
+  margin-bottom: 0.3rem;
+}
+
+.mile__title {
+  font-family: $font-display;
+  font-weight: 500;
+  font-size: 1.18rem;
+  line-height: 1.2;
+  letter-spacing: -0.012em;
+  color: $deep;
+  margin-bottom: 0.45rem;
+}
+
+.mile__meta {
+  font-family: $font-mono;
+  font-size: 0.625rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: $haze;
+  margin-bottom: 0.9rem;
+}
+
+.mile__text {
+  font-size: 0.9375rem;
+  line-height: 1.62;
+  color: $slate;
+  margin-bottom: 1.1rem;
+}
+
+.mile__foot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: $font-mono;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $accent;
+
+  .arrow {
+    display: inline-block;
+    transition: transform 0.22s ease;
+  }
+}
+
+a.mile:hover .mile__foot .arrow {
+  transform: translateX(3px);
+}
+
+// Projects whose domain has lapsed are stated, not linked.
+.mile__state {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: $font-mono;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $haze;
 
   &::before {
     content: "";
-    position: absolute;
-    left: 6px;
-    top: 6px;
-    bottom: 6px;
-    width: 2px;
-    background: $border-strong;
-  }
-}
-
-.timeline-item {
-  position: relative;
-  padding-bottom: 2rem;
-
-  &:last-child {
-    padding-bottom: 0;
-  }
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: -1.75rem;
-    top: 5px;
-    width: 14px;
-    height: 14px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
-    background: $bg-color;
-    border: 3px solid $primary-color;
-    transform: translateX(0);
+    background: currentColor;
+    flex: none;
   }
 }
 
-.timeline-year {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: $white;
-  background: $navy-color;
-  border-radius: 0.25rem;
-  padding: 0.15rem 0.6rem;
+/* ── Photographic archive ─────────────────────────────────────────────────── */
+
+.gallery {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.shot {
+  position: relative;
+  grid-column: span 1;
+  border-radius: $radius;
+  overflow: hidden;
+  background: $mist;
+  aspect-ratio: 4 / 5;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  &:hover img {
+    transform: scale(1.035);
+  }
+
+  // The caption needs to stay readable over whatever is underneath it.
+  &::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 55%;
+    background: linear-gradient(to top, rgba(19, 33, 48, 0.78), transparent);
+    pointer-events: none;
+  }
+}
+
+.shot--wide {
+  grid-column: span 2;
+  aspect-ratio: 16 / 10;
+}
+
+.shot__cap {
+  position: absolute;
+  z-index: 1;
+  left: 1.1rem;
+  right: 1.1rem;
+  bottom: 0.95rem;
+  color: #fff;
+}
+
+.shot__year {
+  font-family: $font-accent;
+  font-style: italic;
+  font-size: 1rem;
+  color: $accent-wash;
+}
+
+.shot__text {
+  font-family: $font-display;
+  font-weight: 500;
+  font-size: 0.95rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.shot__place {
+  font-family: $font-mono;
+  font-size: 0.5938rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  margin-top: 0.25rem;
+}
+
+// A text tile that fills the grid and invites the rest of the archive.
+.shot-note {
+  grid-column: span 2;
+  border-radius: $radius;
+  background: $card;
+  border: 1px solid $line-soft;
+  padding: clamp(1.3rem, 2.4vw, 1.9rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ── Industry conversations ───────────────────────────────────────────────── */
+
+.engagements {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr);
+
+  @media (min-width: 700px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1020px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.engagement {
+  border-radius: $radius;
+  background: $card;
+  border: 1px solid $line-soft;
+  padding: clamp(1.3rem, 2.2vw, 1.75rem);
+}
+
+.engagement__org {
+  font-family: $font-display;
+  font-weight: 500;
+  font-size: 1.15rem;
+  letter-spacing: -0.012em;
+  color: $deep;
+  margin-bottom: 0.3rem;
+}
+
+/* ── Timeline milestones (the trajectory) ─────────────────────────────────── */
+
+.track {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr);
+
+  @media (min-width: 760px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1080px) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.step {
+  position: relative;
+  border-radius: $radius;
+  padding: 1.5rem 1.35rem 1.6rem;
+  background: $card;
+  border: 1px solid $line-soft;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 34px rgba(20, 33, 46, 0.09);
+  }
+}
+
+// The oversized ghosted year, as the reference does with 01 02 03 04.
+.step__ghost {
+  position: absolute;
+  top: -0.3em;
+  right: 0.08em;
+  font-family: $font-display;
+  font-weight: 500;
+  font-size: 4.2rem;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: rgba(46, 111, 158, 0.09);
+  pointer-events: none;
+  user-select: none;
+}
+
+.step--mist {
+  background: $mist;
+  border-color: transparent;
+
+  .step__ghost {
+    color: rgba(27, 48, 73, 0.1);
+  }
+}
+
+.step--block {
+  background: $block;
+  border-color: transparent;
+
+  .step__title {
+    color: #fff;
+  }
+
+  .step__text {
+    color: $block-text;
+  }
+
+  .step__ghost {
+    color: rgba(255, 255, 255, 0.1);
+  }
+
+  .step__year {
+    color: $accent-wash;
+  }
+}
+
+.step__year {
+  position: relative;
+  font-family: $font-accent;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: $accent;
   margin-bottom: 0.5rem;
 }
 
-// Affiliation strip
-.affil-strip {
-  border-top: 1px solid $border-color;
-  border-bottom: 1px solid $border-color;
-  background: $white;
+.step__title {
+  position: relative;
+  font-family: $font-display;
+  font-weight: 500;
+  font-size: 1.05rem;
+  line-height: 1.24;
+  letter-spacing: -0.012em;
+  color: $deep;
+  margin-bottom: 0.5rem;
 }
 
-// Reveal animation (kept subtle)
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+.step__text {
+  position: relative;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: $slate;
+}
+
+/* ── Open list rows (writing, research — no wrapper boxes) ────────────────── */
+
+.rows {
+  border-top: 1px solid $line;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.3rem 1.75rem;
+  padding: 1.4rem 0.6rem;
+  border-bottom: 1px solid $line;
+  border-radius: $radius-sm;
+  transition: background 0.24s ease;
+
+  @media (min-width: 860px) {
+    grid-template-columns: 118px minmax(0, 1fr) 150px;
+    align-items: baseline;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  &:hover {
+    background: $card;
+
+    .row__title {
+      color: $accent;
+    }
+
+    .row__go {
+      opacity: 1;
+      transform: none;
+    }
   }
 }
 
-.rise {
-  animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+.row--paper {
+  @media (min-width: 860px) {
+    grid-template-columns: 96px minmax(0, 1fr) 200px;
+  }
 }
 
-.rise-1 { animation-delay: 0.05s; }
-.rise-2 { animation-delay: 0.12s; }
-.rise-3 { animation-delay: 0.2s; }
-.rise-4 { animation-delay: 0.28s; }
+.row__date {
+  font-family: $font-mono;
+  font-size: 0.6875rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: $haze;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
 
-// Legacy class kept for compat (terminal cursor no longer used)
-.cursor-blink {
+.row__title {
+  font-family: $font-display;
+  font-weight: 500;
+  font-size: 1.08rem;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+  color: $deep;
+  transition: color 0.2s ease;
+
+  @media (min-width: 900px) {
+    font-size: 1.15rem;
+  }
+}
+
+.row__meta {
+  font-family: $font-mono;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $haze;
+
+  @media (min-width: 860px) {
+    text-align: right;
+  }
+}
+
+.row__note {
+  grid-column: 1 / -1;
+  font-size: 0.9375rem;
+  line-height: 1.62;
+  color: $steel;
+  max-width: 64ch;
+
+  @media (min-width: 860px) {
+    grid-column: 2 / 3;
+  }
+}
+
+.row__go {
+  display: inline-block;
+  color: $accent;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* ── Teaching: open entries, no wrapper card ──────────────────────────────── */
+
+.course {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.9rem 2.5rem;
+  padding-block: clamp(1.75rem, 3.5vw, 2.5rem);
+  border-bottom: 1px solid $line;
+
+  @media (min-width: 820px) {
+    grid-template-columns: 190px minmax(0, 1fr);
+  }
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.course__idx {
+  font-family: $font-display;
+  font-weight: 500;
+  font-size: 2.6rem;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: $accent-wash;
+}
+
+.course__title {
+  font-family: $font-display;
+  font-weight: 400;
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: 0.015em;
+  color: $deep;
+  margin-bottom: 0.7rem;
+}
+
+.topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+  margin-top: 1.1rem;
+  font-family: $font-accent;
+  font-style: italic;
+  font-size: 0.98rem;
+  color: $steel;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.1rem;
+
+    &::after {
+      content: "/";
+      font-style: normal;
+      font-size: 0.78rem;
+      color: $accent-wash;
+    }
+
+    &:last-child::after {
+      content: none;
+    }
+  }
+}
+
+/* ── Agent swarm ──────────────────────────────────────────────────────────── */
+
+.band-agents {
+  background: $block;
+  color: $block-text;
+
+  h1,
+  h2,
+  h3 {
+    color: #fff;
+  }
+}
+
+.swarm {
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.swarm__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+// One geometry or the other, never both.
+.swarm__svg--narrow {
   display: none;
 }
 
-// Serif gradient replacement: solid navy (no neon gradient)
-.text-gradient {
-  background: none;
-  -webkit-background-clip: initial;
-  background-clip: initial;
-  -webkit-text-fill-color: currentColor;
-  color: inherit;
-}
+@media (max-width: 760px) {
+  .swarm__svg--wide {
+    display: none;
+  }
 
-@media (prefers-reduced-motion: reduce) {
-  .rise, .rise-1, .rise-2, .rise-3, .rise-4 {
-    animation: none;
+  .swarm__svg--narrow {
+    display: block;
   }
 }
 
-// Scrollbar
-::-webkit-scrollbar {
-  width: 10px;
+// Dashed wires read as packets streaming between stages.
+.swarm__wire {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-width: 1.1;
+  stroke-dasharray: 3 10;
+  animation: swarm-flow 2.6s linear infinite;
 }
-::-webkit-scrollbar-track {
-  background: $bg-color;
+
+.swarm__wire--out {
+  stroke: rgba(110, 168, 207, 0.55);
 }
-::-webkit-scrollbar-thumb {
-  background: #d8cfbe;
-  border-radius: 5px;
+
+@keyframes swarm-flow {
+  to {
+    stroke-dashoffset: -26;
+  }
+}
+
+.swarm__agent {
+  animation: swarm-pulse 3s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.swarm__dot {
+  fill: $accent-wash;
+}
+
+.swarm__halo {
+  fill: rgba(110, 168, 207, 0.13);
+}
+
+@keyframes swarm-pulse {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: scale(0.82);
+  }
+
+  45% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+.swarm__ring {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.42);
+  stroke-width: 1.2;
+  animation: swarm-breathe 3.4s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.swarm__core {
+  fill: #fff;
+}
+
+.swarm__end--sink .swarm__core {
+  fill: $accent-wash;
+}
+
+@keyframes swarm-breathe {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.94);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+.swarm__legend {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+
+  @media (max-width: 760px) {
+    margin-top: 0.6rem;
+  }
+}
+
+.swarm__label {
+  font-family: $font-mono;
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $block-haze;
+  text-align: center;
+
+  &:first-child {
+    text-align: left;
+  }
+
+  &:last-child {
+    text-align: right;
+  }
+}
+
+.swarm__label--mid {
+  color: $accent-wash;
+}
+
+.swarm-verbs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 1.1rem;
+  margin-top: 1.6rem;
+  font-family: $font-accent;
+  font-style: italic;
+  font-size: 1.02rem;
+  color: $block-haze;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.1rem;
+
+    &::after {
+      content: "/";
+      font-style: normal;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.32);
+    }
+
+    &:last-child::after {
+      content: none;
+    }
+  }
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: $font-mono;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.9rem 1.5rem;
+  border-radius: 999px;
+  border: 1px solid $accent;
+  background: $accent;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.22s ease, border-color 0.22s ease, color 0.22s ease,
+    transform 0.22s ease;
+
+  .arrow {
+    display: inline-block;
+    transition: transform 0.22s ease;
+  }
 
   &:hover {
-    background: $primary-color;
+    background: $accent-deep;
+    border-color: $accent-deep;
+    color: #fff;
+    transform: translateY(-1px);
+
+    .arrow {
+      transform: translateX(3px);
+    }
+  }
+}
+
+.btn--ghost {
+  background: transparent;
+  color: $deep;
+  border-color: $line;
+
+  &:hover {
+    background: $card;
+    border-color: $accent;
+    color: $accent;
+  }
+}
+
+.btn--onblock {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #fff;
+
+  &:hover {
+    background: #fff;
+    border-color: #fff;
+    color: $block;
+  }
+}
+
+/* ── Links and chips ──────────────────────────────────────────────────────── */
+
+.link {
+  color: $accent;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  padding-bottom: 1px;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $accent-deep;
+  }
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: $font-mono;
+  font-size: 0.6563rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $slate;
+  border: 1px solid $line;
+  background: $card;
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    border-color: $accent;
+    color: $accent;
+    transform: translateY(-1px);
+  }
+}
+
+.tag {
+  display: inline-block;
+  font-family: $font-mono;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $slate;
+  border: 1px solid $line;
+  background: transparent;
+  border-radius: 999px;
+  padding: 0.42rem 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+
+  &:hover {
+    border-color: $accent;
+    color: $accent;
+  }
+
+  &[aria-pressed="true"] {
+    background: $accent;
+    border-color: $accent;
+    color: #fff;
+  }
+}
+
+/* ── Navbar ───────────────────────────────────────────────────────────────── */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: rgba(237, 242, 247, 0.82);
+  backdrop-filter: saturate(170%) blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.nav--pinned {
+  border-bottom-color: $line;
+  background: rgba(237, 242, 247, 0.95);
+}
+
+.nav__inner {
+  height: $nav-h;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.nav__name {
+  display: block;
+  font-family: $font-display;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  color: $deep;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.nav__role {
+  display: none;
+  font-family: $font-accent;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: $steel;
+  line-height: 1.3;
+  white-space: nowrap;
+
+  @media (min-width: 560px) {
+    display: block;
+  }
+}
+
+.nav__links {
+  display: none;
+  align-items: center;
+  gap: 1.7rem;
+
+  @media (min-width: 980px) {
+    display: flex;
+  }
+}
+
+.nav__link {
+  font-family: $font-mono;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $slate;
+  position: relative;
+  padding-block: 4px;
+  transition: color 0.18s ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: $accent;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.24s ease;
+  }
+
+  &:hover {
+    color: $accent;
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+}
+
+.nav__lang {
+  display: flex;
+  align-items: center;
+  border: 1px solid $line;
+  border-radius: 999px;
+  overflow: hidden;
+  font-family: $font-mono;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  flex: none;
+  background: $card;
+
+  button {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 0.4rem 0.62rem;
+    color: $haze;
+    cursor: pointer;
+    font: inherit;
+    transition: background 0.18s ease, color 0.18s ease;
+
+    &:hover {
+      color: $accent;
+    }
+
+    &[aria-pressed="true"] {
+      background: $accent;
+      color: #fff;
+    }
+  }
+}
+
+.nav__burger {
+  appearance: none;
+  background: $card;
+  border: 1px solid $line;
+  border-radius: 999px;
+  width: 40px;
+  height: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 0;
+  flex: none;
+
+  @media (min-width: 980px) {
+    display: none;
+  }
+
+  span {
+    display: block;
+    width: 15px;
+    height: 1.5px;
+    background: $deep;
+    flex: none;
+    transition: transform 0.22s ease, opacity 0.18s ease;
+  }
+
+  // Bars sit at -5.5 / 0 / +5.5, so the outer two travel exactly that far.
+  &[aria-expanded="true"] {
+    span:nth-child(1) {
+      transform: translateY(5.5px) rotate(45deg);
+    }
+
+    span:nth-child(2) {
+      opacity: 0;
+    }
+
+    span:nth-child(3) {
+      transform: translateY(-5.5px) rotate(-45deg);
+    }
+  }
+}
+
+.nav__drawer {
+  border-top: 1px solid $line;
+  background: $paper-soft;
+  padding-block: 0.5rem 1.4rem;
+
+  @media (min-width: 980px) {
+    display: none;
+  }
+
+  a {
+    display: block;
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: $slate;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid $line-soft;
+
+    &:hover {
+      color: $accent;
+    }
+  }
+}
+
+.nav__spacer {
+  height: $nav-h;
+}
+
+/* ── Logo mark ────────────────────────────────────────────────────────────── */
+
+.logo {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  display: block;
+
+  .logo__lens {
+    transition: fill 0.25s ease;
+  }
+}
+
+.nav__brand:hover .logo__lens {
+  fill: $accent-deep;
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+
+.foot {
+  background: $block;
+  color: $block-text;
+  border-radius: $radius-lg $radius-lg 0 0;
+  padding-block: clamp(3rem, 6vw, 4.5rem) 2.5rem;
+
+  h1,
+  h2,
+  h3 {
+    color: #fff;
+  }
+
+  a:not(.btn) {
+    color: $block-text;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
+/* ── Reveal on scroll ─────────────────────────────────────────────────────── */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: $sink;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $accent-wash;
+  border-radius: 999px;
+
+  &:hover {
+    background: $steel;
+  }
+}
+
+/* ── Print ────────────────────────────────────────────────────────────────── */
+
+@media print {
+  .nav,
+  .nav__spacer,
+  .hero__figure,
+  .ghost__word {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
   }
 }

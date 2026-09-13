@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "packageManager": "pnpm@10.26.2",
   "private": true,
-  "description": "Personal academic site of Dr. Eng. Carlos Navarrete — computational social science, generative AI, UdeC / CDIA.",
+  "description": "Personal academic site of Carlos Navarrete — Assistant Professor, Faculty of Engineering, Universidad de Concepción; CDIA board; Millennium Nucleus MEPOP.",
   "author": "cnavarreteliz",
   "engines": {
     "node": ">=20 <23",
@@ -20,7 +20,8 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "lint": "eslint .",
-    "deploy:gcp": "pnpm build && bash deploy/deploy.sh"
+    "build:clean": "gatsby clean && gatsby build",
+    "deploy:gcp": "bash deploy/deploy.sh"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.18",
