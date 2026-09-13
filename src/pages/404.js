@@ -6,11 +6,11 @@ import {useLanguage} from "../helpers/useLanguage";
 
 const translations = {
   en: {
-    message: "This route does not exist in the system.",
+    message: "The page you are looking for does not exist.",
     home: "Return home"
   },
   es: {
-    message: "Esta ruta no existe en el sistema.",
+    message: "La página que buscas no existe.",
     home: "Volver al inicio"
   }
 };
@@ -20,25 +20,23 @@ const NotFoundPage = () => {
   const t = translations[language];
 
   return (
-    <div className="min-h-screen text-slate-300 relative">
-      <div className="bg-grid" />
-      <div className="bg-orbs" />
+    <div className="min-h-screen">
       <Navbar language={language} setLanguage={setLanguage} />
 
-      <main className="relative z-10 max-w-4xl mx-auto px-6 md:px-8 py-32 text-center">
-        <p className="font-mono text-xs text-cyan-400/90 tracking-wide mb-6">
-          // error
+      <main className="max-w-4xl mx-auto px-6 md:px-8 py-32 text-center">
+        <p className="eyebrow mb-6">
+          Error
         </p>
         <h1
-          className="text-7xl md:text-9xl font-bold tracking-tight mb-6"
-          style={{fontFamily: "'Space Grotesk', sans-serif"}}
+          className="tracking-tight mb-6 text-[#a41034]"
+          style={{fontFamily: "'Source Serif 4', Georgia, serif", fontWeight: 700, fontSize: "5rem", lineHeight: 1}}
         >
-          <span className="text-gradient">404</span>
+          404
         </h1>
-        <p className="font-mono text-sm text-slate-500 mb-10">
+        <p className="text-[15px] text-[#6f6a63] mb-10">
           {t.message}
         </p>
-        <Link to="/" className="chip inline-flex items-center gap-2">
+        <Link to="/" className="btn-outline inline-flex items-center gap-2">
           <span aria-hidden="true">←</span>
           {t.home}
         </Link>

@@ -6,21 +6,20 @@ import {useLanguage} from "../helpers/useLanguage";
 const translations = {
   en: {
     pageTitle: "Research",
-    kicker: "// publications · polarization · economic geography · ai",
-    description: "My research focuses on addressing big problems that help us better understand and solve real-life issues in Chile, including computational social science, polarization, economic geography, and the application of artificial intelligence to complex socio-economic systems.",
-    viewGoogleScholar: "View full profile on",
+    kicker: "Publications · polarization · economic geography · AI",
+    description: "A reference section. The core of this site is applied AI and data products in production — see the homepage. Below, the peer-reviewed record: computational social science, electoral divisiveness, and innovation metrics.",
+    viewGoogleScholar: "Full, up-to-date list on",
     citations: "citations"
   },
   es: {
     pageTitle: "Investigación",
-    kicker: "// publicaciones · polarización · geografía económica · ia",
-    description: "Mi investigación se enfoca en abordar grandes problemas que nos ayudan a comprender y resolver mejor los desafíos de la vida real en Chile, incluyendo ciencia social computacional, polarización, geografía económica y la aplicación de inteligencia artificial a sistemas socioeconómicos complejos.",
-    viewGoogleScholar: "Ver perfil completo en",
+    kicker: "Publicaciones · polarización · geografía económica · IA",
+    description: "Una sección de referencia. El centro de este sitio es la IA aplicada y los productos de datos en producción — ver el inicio. Abajo, el registro académico: ciencia social computacional, divisividad electoral y métricas de innovación.",
+    viewGoogleScholar: "Lista completa y actualizada en",
     citations: "citas"
   }
 };
 
-// Publicaciones organizadas por año (ordenadas por fecha de publicación)
 const publications = [
   {
     year: 2025,
@@ -119,70 +118,68 @@ function ResearchPage() {
   const t = translations[language];
 
   return (
-    <div className="min-h-screen text-slate-300 relative">
-      <div className="bg-grid" />
-      <div className="bg-orbs" />
+    <div className="min-h-screen">
       <Navbar language={language} setLanguage={setLanguage} />
 
-      <main className="relative z-10 max-w-4xl mx-auto px-6 md:px-8 py-16">
-        {/* Header Section */}
-        <div className="mb-20 rise rise-1">
-          <p className="font-mono text-xs text-cyan-400/90 tracking-wide mb-6">
-            {t.kicker}
-          </p>
+      <main className="max-w-4xl mx-auto px-6 md:px-8 py-14">
+        <div className="mb-14 rise rise-1">
+          <p className="eyebrow mb-5">{t.kicker}</p>
           <h1
-            className="text-4xl md:text-6xl font-bold tracking-tight text-slate-50 mb-6"
-            style={{fontFamily: "'Space Grotesk', sans-serif"}}
+            className="text-4xl md:text-5xl tracking-tight mb-5"
+            style={{fontFamily: "'Source Serif 4', Georgia, serif", fontWeight: 700}}
           >
-            <span className="text-gradient">{t.pageTitle}</span>
+            {t.pageTitle}
           </h1>
-          <p className="text-lg text-slate-400 leading-relaxed max-w-2xl mb-6">
+          <div className="crimson-rule mb-6" aria-hidden="true" />
+          <p className="text-[16px] text-[#57534e] leading-relaxed max-w-2xl mb-5">
             {t.description}
           </p>
-          <p className="text-sm text-slate-500">
+          <p className="text-[14px] text-[#6f6a63]">
             {t.viewGoogleScholar}{" "}
             <a
               href="https://scholar.google.com/citations?user=JqTxoC0AAAAJ&hl=en"
               target="_blank"
               rel="noreferrer"
-              className="text-cyan-300 hover:text-cyan-200 font-medium"
+              className="font-semibold"
             >
               Google Scholar ↗
             </a>
           </p>
         </div>
 
-        {/* Publications by Year */}
-        <div className="space-y-20 rise rise-2">
+        <div className="space-y-14 rise rise-2">
           {publications.map((yearData) => (
             <section key={yearData.year}>
-              <div className="section-index mb-10">
+              <div className="section-index">
                 <span>{yearData.year}</span>
               </div>
 
-              <div className="grid grid-cols-1 gap-5">
+              <div className="bg-white border border-[#e5ddd0] rounded-lg divide-y divide-[#efe9dd]">
                 {yearData.papers.map((paper, index) => (
                   <a
                     key={index}
                     href={paper.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="glass-card block p-6 group"
+                    className="group block px-7 py-6"
                   >
-                    <h3 className="text-lg font-semibold text-slate-100 group-hover:text-cyan-200 transition-colors leading-snug mb-3">
+                    <h3
+                      className="text-[18px] leading-snug mb-2 group-hover:text-[#a41034] transition-colors"
+                      style={{fontFamily: "'Source Serif 4', Georgia, serif", fontWeight: 600}}
+                    >
                       {paper.title}
                     </h3>
 
-                    <p className="text-sm text-slate-400 mb-4 leading-relaxed">
+                    <p className="text-[14px] text-[#6f6a63] mb-3 leading-relaxed">
                       {paper.authors}
                     </p>
 
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs">
-                      <span className="text-violet-300/90 italic">{paper.journal}</span>
-                      {paper.volume && <span className="text-slate-500">{paper.volume}</span>}
-                      {paper.pages && <span className="text-slate-500">{paper.pages}</span>}
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[12.5px]">
+                      <span className="italic text-[#57534e]">{paper.journal}</span>
+                      {paper.volume && <span className="text-[#a8a29a]">{paper.volume}</span>}
+                      {paper.pages && <span className="text-[#a8a29a]">{paper.pages}</span>}
                       {paper.citations > 0 && (
-                        <span className="ml-auto px-2 py-0.5 rounded-full border border-cyan-400/20 text-cyan-400/90 text-[10px]">
+                        <span className="ml-auto px-2.5 py-0.5 rounded-full border border-[#e5ddd0] text-[#a41034] text-[11px] font-semibold">
                           {paper.citations} {t.citations}
                         </span>
                       )}

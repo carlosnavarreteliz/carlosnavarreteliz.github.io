@@ -1,15 +1,20 @@
 $primary-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-$display-font: 'Space Grotesk', $primary-font;
-$mono-font: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+$display-font: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+$mono-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-$bg-color: #05070d;
-$bg-elevated: #0a0e1a;
-$text-color: #cbd5e1;
-$heading-color: #f8fafc;
-$primary-color: #22d3ee;   // electric cyan
-$secondary-color: #818cf8; // indigo
-$tertiary-color: #c084fc;  // violet
-$muted-color: #64748b;
-$border-color: rgba(148, 163, 184, 0.12);
+// HBS / top-professor light palette
+$bg-color: #faf8f5;          // warm paper
+$bg-elevated: #ffffff;       // cards
+$bg-warm: #f3efe8;           // inset bands
+$text-color: #2b2927;        // warm ink
+$heading-color: #161412;     // near-black
+$muted-color: #6f6a63;       // stone
+$faint-color: #a8a29a;
+$primary-color: #a41034;     // HBS crimson
+$primary-dark: #7a0c26;
+$navy-color: #1b2a4a;        // academic navy
+$gold-color: #b08d4f;        // restrained gold
+$border-color: #e5ddd0;
+$border-strong: #d6c9b4;
 $white: #fff;
 $max-width: 1600px;

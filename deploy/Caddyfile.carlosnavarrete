@@ -1,0 +1,23 @@
+# Bloque Caddy para carlosnavarrete.cl (sitio estático Gatsby en /var/www/carlosnavarrete.cl).
+# Se agrega a /etc/caddy/Caddyfile en la VM. Caddy emite el certificado
+# Let's Encrypt automáticamente cuando el DNS ya apunta a la VM.
+carlosnavarrete.cl, www.carlosnavarrete.cl {
+    encode zstd gzip
+    root * /var/www/carlosnavarrete.cl
+
+    # Assets con hash en el nombre son inmutables
+    @immutable {
+        path *.js *.css *.woff *.woff2
+        query page-data=*
+    }
+    header @immutable Cache-Control "public, max-age=31536000, immutable"
+
+    try_files {path} {path}/ {path}.html /index.html
+    file_server
+
+    handle_errors {
+        @notfound expression {http.error.status_code} == 404
+        rewrite @notfound /404.html
+        file_server
+    }
+}

@@ -3,14 +3,18 @@ import React, {useState, useEffect} from "react";
 const navLabels = {
   en: [
     {href: "/", label: "About"},
+    {href: "/#projects", label: "AI & Data"},
+    {href: "/#trajectory", label: "Trajectory"},
+    {href: "/op-ed/", label: "Writing"},
     {href: "/research/", label: "Research"},
-    {href: "/op-ed/", label: "Op-Ed"},
     {href: "/courses/", label: "Teaching"}
   ],
   es: [
     {href: "/", label: "Perfil"},
-    {href: "/research/", label: "Investigación"},
+    {href: "/#projects", label: "IA y Datos"},
+    {href: "/#trajectory", label: "Trayectoria"},
     {href: "/op-ed/", label: "Columnas"},
+    {href: "/research/", label: "Investigación"},
     {href: "/courses/", label: "Docencia"}
   ]
 };
@@ -22,7 +26,7 @@ export default function Navbar({language = "en", setLanguage}) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 12);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -32,51 +36,45 @@ export default function Navbar({language = "en", setLanguage}) {
   return (
     <>
       <nav
-        className={`fixed top-0 inset-x-0 z-50 border-b transition-all duration-300 backdrop-blur-xl ${
-          isScrolled
-            ? "border-cyan-400/10 bg-[#05070d]/85 shadow-[0_4px_30px_rgba(34,211,238,0.06)]"
-            : "border-white/5 bg-[#05070d]/60"
-        }`}
+        className="fixed top-0 inset-x-0 z-50 transition-all duration-200 bg-[#faf8f5]/95 backdrop-blur"
+        style={{
+          borderBottom: "1px solid #e5ddd0",
+          boxShadow: isScrolled ? "0 4px 20px rgba(27,42,74,0.08)" : "none"
+        }}
       >
-        <div className="mx-auto max-w-6xl px-6 lg:px-8 h-20 flex items-center justify-between">
-
-          {/* Brand */}
-          <a href="/" className="flex items-baseline gap-2 group">
-            <span className="font-mono text-cyan-400 text-sm tracking-tight group-hover:text-cyan-300 transition-colors">
-              ~/
-            </span>
+        <div className="h-1" style={{background: "#a41034"}} aria-hidden="true" />
+        <div className="mx-auto max-w-6xl px-6 lg:px-8 h-[72px] flex items-center justify-between">
+          <a href="/" className="flex flex-col leading-none group">
             <span
-              className="text-lg font-semibold tracking-[0.18em] text-slate-100 group-hover:text-white transition-colors"
-              style={{fontFamily: "'Space Grotesk', sans-serif"}}
+              className="text-[19px] font-semibold tracking-tight text-[#161412]"
+              style={{fontFamily: "'Source Serif 4', Georgia, serif"}}
             >
-              CARLOS NAVARRETE
+              Carlos Navarrete
+            </span>
+            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#a41034] mt-1">
+              {language === "es" ? "Inteligencia Artificial · UdeC" : "Artificial Intelligence · UdeC"}
             </span>
           </a>
 
-          {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-7">
-            {links.map((link, i) => (
+            {links.map((link) => (
               <a
-                key={link.href}
+                key={link.label}
                 href={link.href}
-                className="group flex items-center gap-1.5 text-[13px] font-medium uppercase tracking-[0.14em] text-slate-400 hover:text-cyan-300 transition-colors"
+                className="text-[12.5px] font-semibold uppercase tracking-[0.12em] text-[#57534e] hover:text-[#a41034] transition-colors"
               >
-                <span className="font-mono text-[10px] text-slate-600 group-hover:text-cyan-500 transition-colors">
-                  0{i + 1}
-                </span>
                 {link.label}
               </a>
             ))}
 
-            {/* Language Selector */}
             {language !== undefined && setLanguage && (
-              <div className="flex items-center ml-4 rounded-full border border-white/10 p-0.5 font-mono text-[11px]">
+              <div className="flex items-center ml-2 rounded-full border border-[#e5ddd0] bg-white p-0.5 text-[11px] font-semibold">
                 <button
                   onClick={() => setLanguage("en")}
                   className={`px-2.5 py-1 rounded-full transition-all ${
                     language === "en"
-                      ? "bg-cyan-400/15 text-cyan-300 shadow-[0_0_12px_rgba(34,211,238,0.15)]"
-                      : "text-slate-500 hover:text-slate-300"
+                      ? "bg-[#a41034] text-white"
+                      : "text-[#a8a29a] hover:text-[#57534e]"
                   }`}
                 >
                   EN
@@ -85,8 +83,8 @@ export default function Navbar({language = "en", setLanguage}) {
                   onClick={() => setLanguage("es")}
                   className={`px-2.5 py-1 rounded-full transition-all ${
                     language === "es"
-                      ? "bg-cyan-400/15 text-cyan-300 shadow-[0_0_12px_rgba(34,211,238,0.15)]"
-                      : "text-slate-500 hover:text-slate-300"
+                      ? "bg-[#a41034] text-white"
+                      : "text-[#a8a29a] hover:text-[#57534e]"
                   }`}
                 >
                   ES
@@ -95,10 +93,9 @@ export default function Navbar({language = "en", setLanguage}) {
             )}
           </div>
 
-          {/* Mobile menu button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-slate-400 hover:text-cyan-300 transition-colors"
+            className="md:hidden text-[#57534e] hover:text-[#a41034] transition-colors"
             aria-label="Toggle menu"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -111,31 +108,29 @@ export default function Navbar({language = "en", setLanguage}) {
           </button>
         </div>
 
-        {/* Mobile menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-white/5 bg-[#05070d]/95 backdrop-blur-xl px-6 py-5 space-y-4">
-            {links.map((link, i) => (
+          <div className="md:hidden border-t border-[#e5ddd0] bg-white px-6 py-5 space-y-4">
+            {links.map((link) => (
               <a
-                key={link.href}
+                key={link.label}
                 href={link.href}
-                className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.14em] text-slate-400 hover:text-cyan-300 transition-colors"
+                className="block text-[13px] font-semibold uppercase tracking-[0.12em] text-[#57534e] hover:text-[#a41034] transition-colors"
               >
-                <span className="font-mono text-[10px] text-slate-600">0{i + 1}</span>
                 {link.label}
               </a>
             ))}
             {language !== undefined && setLanguage && (
-              <div className="flex items-center gap-2 pt-2 font-mono text-[11px]">
+              <div className="flex items-center gap-2 pt-2 text-[12px] font-semibold">
                 <button
                   onClick={() => setLanguage("en")}
-                  className={language === "en" ? "text-cyan-300" : "text-slate-500"}
+                  className={language === "en" ? "text-[#a41034]" : "text-[#a8a29a]"}
                 >
                   EN
                 </button>
-                <span className="text-slate-700">/</span>
+                <span className="text-[#e5ddd0]">/</span>
                 <button
                   onClick={() => setLanguage("es")}
-                  className={language === "es" ? "text-cyan-300" : "text-slate-500"}
+                  className={language === "es" ? "text-[#a41034]" : "text-[#a8a29a]"}
                 >
                   ES
                 </button>
@@ -144,7 +139,7 @@ export default function Navbar({language = "en", setLanguage}) {
           </div>
         )}
       </nav>
-      <div className="h-20" />
+      <div className="h-[76px]" />
     </>
   );
 }

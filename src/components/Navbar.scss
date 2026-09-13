@@ -1,5 +1,4 @@
-@import "../pages/styles.scss";
-@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+@use "../pages/variables" as *;
 $height: 70px;
 
 .navbar {

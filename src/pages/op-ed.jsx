@@ -5,16 +5,16 @@ import {useLanguage} from "../helpers/useLanguage";
 
 const translations = {
   en: {
-    pageTitle: "Op-Ed",
-    kicker: "// public debate · technology · society",
-    description: "Opinion columns on technology, artificial intelligence, innovation, and their impact on Chilean society.",
+    pageTitle: "Writing",
+    kicker: "El Mostrador · public debate · technology · society",
+    description: "15+ opinion columns on artificial intelligence, employment, democracy and education — where the research meets public debate. All published in El Mostrador, Chile's leading digital newspaper.",
     readMore: "Read article",
     publishedIn: "Published in"
   },
   es: {
     pageTitle: "Columnas de Opinión",
-    kicker: "// debate público · tecnología · sociedad",
-    description: "Columnas de opinión sobre tecnología, inteligencia artificial, innovación y su impacto en la sociedad chilena.",
+    kicker: "El Mostrador · debate público · tecnología · sociedad",
+    description: "Más de 15 columnas sobre inteligencia artificial, empleo, democracia y educación — donde la investigación se encuentra con el debate público. Todas publicadas en El Mostrador.",
     readMore: "Leer artículo",
     publishedIn: "Publicado en"
   }
@@ -144,24 +144,23 @@ function OpEdPage() {
   const t = translations[language];
 
   return (
-    <div className="min-h-screen text-slate-300 relative">
-      <div className="bg-grid" />
-      <div className="bg-orbs" />
+    <div className="min-h-screen">
       <Navbar language={language} setLanguage={setLanguage} />
 
-      <main className="relative z-10 max-w-4xl mx-auto px-6 md:px-8 py-16">
+      <main className="max-w-4xl mx-auto px-6 md:px-8 py-14">
         {/* Header Section */}
-        <div className="mb-20 rise rise-1">
-          <p className="font-mono text-xs text-cyan-400/90 tracking-wide mb-6">
+        <div className="mb-14 rise rise-1">
+          <p className="eyebrow mb-5">
             {t.kicker}
           </p>
           <h1
-            className="text-4xl md:text-6xl font-bold tracking-tight text-slate-50 mb-6"
-            style={{fontFamily: "'Space Grotesk', sans-serif"}}
+            className="tracking-tight mb-5"
+            style={{fontFamily: "'Source Serif 4', Georgia, serif", fontWeight: 700, fontSize: "2.75rem", lineHeight: 1.1}}
           >
-            <span className="text-gradient">{t.pageTitle}</span>
+            {t.pageTitle}
           </h1>
-          <p className="text-lg text-slate-400 leading-relaxed max-w-2xl">
+          <div className="crimson-rule mb-6" aria-hidden="true" />
+          <p className="text-[16px] text-[#57534e] leading-relaxed max-w-2xl">
             {t.description}
           </p>
         </div>
@@ -184,23 +183,23 @@ function OpEdPage() {
                     className="glass-card block p-6 group"
                   >
                     <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-y-2 mb-3">
-                      <h3 className="text-lg font-semibold text-slate-100 group-hover:text-cyan-200 transition-colors leading-snug max-w-2xl">
+                      <h3 className="text-[18px] leading-snug max-w-2xl group-hover:text-[#a41034] transition-colors" style={{fontFamily: "'Source Serif 4', Georgia, serif", fontWeight: 600}}>
                         {column.title}
                       </h3>
-                      <span className="font-mono text-xs text-slate-500 shrink-0">
+                      <span className="text-[12.5px] font-semibold text-[#a41034] shrink-0">
                         {column.date}
                       </span>
                     </div>
 
-                    <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-violet-300/80 mb-3">
+                    <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#a8a29a] mb-3">
                       {column.publication}
                     </div>
 
-                    <p className="text-sm text-slate-400 leading-relaxed max-w-3xl mb-4">
+                    <p className="text-[14px] text-[#57534e] leading-relaxed max-w-3xl mb-4">
                       {column.description}
                     </p>
 
-                    <span className="inline-flex items-center gap-1.5 font-mono text-xs text-cyan-400 group-hover:text-cyan-300 group-hover:gap-2.5 transition-all">
+                    <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#a41034]">
                       {t.readMore}
                       <span aria-hidden="true">→</span>
                     </span>

@@ -1,4 +1,4 @@
-@import "../pages/variables";
+@use "../pages/variables" as *;
 
 .title {
   display: flex;

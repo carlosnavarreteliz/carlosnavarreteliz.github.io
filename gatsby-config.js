@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: "Dr. Eng. Carlos Navarrete",
     description:
-      "Carlos Navarrete is a faculty member at the Faculty of Engineering, Universidad de Concepción, and board member of the Center for Data and Artificial Intelligence (CDIA). His research spans computational social science, electoral divisiveness, innovation metrics, and AI applied to socio-economic systems.",
+      "Carlos Navarrete is a faculty member at the Faculty of Engineering, Universidad de Concepción, and board member of the Center for Data and Artificial Intelligence (CDIA). He builds applied generative-AI systems and researches computational social science, electoral divisiveness, and innovation metrics.",
     author: "Carlos Navarrete",
     siteUrl: "https://carlosnavarrete.cl",
     image: "/carlos-navarrete.jpg",
@@ -23,7 +23,16 @@ module.exports = {
         },
       },
     },
-    "gatsby-plugin-sass",
+    {
+      resolve: "gatsby-plugin-sass",
+      options: {
+        sassOptions: {
+          // gatsby-plugin-sass still calls the legacy Sass JS API; silence that
+          // deprecation noise (our own SCSS already uses modern @use).
+          silenceDeprecations: ["legacy-js-api"],
+        },
+      },
+    },
     "gatsby-plugin-sitemap",
     {
       resolve: "gatsby-plugin-manifest",
@@ -31,8 +40,8 @@ module.exports = {
         name: "Dr. Eng. Carlos Navarrete",
         short_name: "Dr. Navarrete",
         start_url: "/",
-        background_color: "#05070d",
-        theme_color: "#05070d",
+        background_color: "#faf8f5",
+        theme_color: "#a41034",
         display: "minimal-ui",
         icon: "src/assets/icon.png"
       }

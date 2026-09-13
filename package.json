@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "packageManager": "pnpm@10.26.2",
   "private": true,
-  "description": "carlos-navarrete",
+  "description": "Personal academic site of Dr. Eng. Carlos Navarrete — computational social science, generative AI, UdeC / CDIA.",
   "author": "cnavarreteliz",
+  "engines": {
+    "node": ">=20 <23",
+    "pnpm": ">=10"
+  },
   "keywords": [
     "gatsby"
   ],
@@ -15,12 +19,12 @@
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "deploy": "gatsby build && gh-pages -d public -b main"
+    "lint": "eslint .",
+    "deploy:gcp": "pnpm build && bash deploy/deploy.sh"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.18",
     "gatsby": "^5.16.0",
-    "gatsby-plugin-google-analytics": "^5.16.0",
     "gatsby-plugin-google-gtag": "^5.16.0",
     "gatsby-plugin-manifest": "^5.16.0",
     "gatsby-plugin-postcss": "^6.16.0",
@@ -36,13 +40,12 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "eslint": "^9.39.2",
-    "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "gh-pages": "^6.3.0"
+    "eslint-plugin-react-hooks": "^7.0.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

@@ -1,45 +1,42 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby minimal starter
-</h1>
+# carlosnavarrete.cl
 
-## 🚀 Quick start
+Personal academic site of **Dr. Eng. Carlos Navarrete** — Faculty of Engineering,
+Universidad de Concepción · Board Member, CDIA.
+Computational social science · generative AI · complex systems.
 
-1.  **Start developing.**
+Built with [Gatsby 5](https://www.gatsbyjs.com), React, Tailwind CSS v4, Sass.
+Package manager: **pnpm** (enforced via `packageManager` + `.npmrc`).
 
-    Install dependencies and start the development server.
+## Requirements
 
-    ```shell
-    pnpm install
-    pnpm run develop
-    ```
+- Node.js 22 (`nvm use` reads `.nvmrc` / `.node-version`)
+- pnpm 10 (`corepack enable` or `npm i -g pnpm`)
 
-3.  **Open the code and start customizing!**
+## Quick start
 
-    Your site is now running at http://localhost:8000!
+```shell
+pnpm install
+pnpm dev        # http://localhost:8000
+pnpm build      # static output in public/
+pnpm serve      # preview the production build
+pnpm lint       # eslint (flat config)
+pnpm clean      # gatsby clean
+```
 
-    Edit `src/pages/index.js` to see your site update in real-time!
+## Deploy (GCP, e2-micro free tier)
 
-4.  **Learn more**
+The site is a static build (`public/`). Production serves it with Nginx + HTTPS
+on a single `e2-micro` VM. Full guide: [`deploy/README.md`](deploy/README.md).
 
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+```shell
+pnpm deploy:gcp   # build + rsync public/ to the VM (see deploy/deploy.sh)
+```
 
-    - [Tutorials](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+DNS (`nic.cl`): two `A` records → the VM's reserved external IP (see deploy guide).
 
-    - [Guides](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+## Notas
 
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-## 🚀 Quick start (Gatsby Cloud)
-
-Deploy this starter with one click on [Gatsby Cloud](https://www.gatsbyjs.com/cloud/):
-
-[<img src="https://www.gatsbyjs.com/deploynow.svg" alt="Deploy to Gatsby Cloud">](https://www.gatsbyjs.com/dashboard/deploynow?url=https://github.com/gatsbyjs/gatsby-starter-minimal)
+- El lint real es `pnpm lint` (ESLint 9, `eslint.config.js`). El archivo
+  `.eslintrc.json` (vacío) existe solo como marcador: Gatsby 5 no reconoce el
+  flat config y sin él inyecta `eslint-config-react-app` en `gatsby develop`,
+  que es incompatible con ESLint 9. No borrar.

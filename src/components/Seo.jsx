@@ -4,7 +4,7 @@ const SITE = {
   url: "https://carlosnavarrete.cl",
   title: "Dr. Eng. Carlos Navarrete",
   description:
-    "Carlos Navarrete is a faculty member at the Faculty of Engineering, Universidad de Concepción, and board member of the Center for Data and Artificial Intelligence (CDIA). His research spans computational social science, electoral divisiveness, innovation metrics, and AI applied to socio-economic systems.",
+    "Carlos Navarrete is Professor of Engineering at Universidad de Concepción and board member of its Center for Data and Artificial Intelligence (CDIA). He builds applied generative-AI systems and national-scale data products (DataChile, MonProgramme 2022) and writes on AI, employment and democracy in El Mostrador.",
   image: "/carlos-navarrete.jpg",
   twitter: "@cnavarreteliz",
 };
@@ -71,7 +71,7 @@ export function Seo({title, description, pathname = "/", children, includePerson
       <meta name="description" content={seo.description} />
       <link rel="canonical" href={seo.url} />
       <meta name="author" content="Carlos Navarrete" />
-      <meta name="theme-color" content="#05070d" />
+      <meta name="theme-color" content="#faf8f5" />
 
       {/* Open Graph */}
       <meta property="og:type" content={includePerson ? "profile" : "website"} />
