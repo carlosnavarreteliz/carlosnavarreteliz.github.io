@@ -12,7 +12,11 @@ carlosnavarrete.cl, www.carlosnavarrete.cl {
     }
     header @immutable Cache-Control "public, max-age=31536000, immutable"
 
-    try_files {path} {path}/ {path}.html /index.html
+    # Sin el fallback a /index.html: este es un sitio estático multipágina, no
+    # una SPA. Con `/index.html` al final, CUALQUIER ruta inexistente devolvía
+    # la portada con HTTP 200 (soft 404) y el bloque handle_errors de abajo
+    # nunca llegaba a ejecutarse.
+    try_files {path} {path}/ {path}.html
     file_server
 
     handle_errors {
