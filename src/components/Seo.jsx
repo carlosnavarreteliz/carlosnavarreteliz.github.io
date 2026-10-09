@@ -5,7 +5,7 @@ const SITE = {
   title: "Carlos Navarrete",
   tagline: "Generative AI and the future of society",
   description:
-    "Carlos Navarrete is Assistant Professor at the Faculty of Engineering, Universidad de Concepción, board member of its Center for Data and Artificial Intelligence (CDIA) and associate researcher at the Millennium Nucleus MEPOP. He studies generative AI as the industrial revolution of our time — its effects on work, education, public debate and democracy — and has built national-scale data platforms used by millions.",
+    "Carlos Navarrete is Assistant Professor at the Faculty of Engineering, Universidad de Concepción, deputy director of its Center for Data and Artificial Intelligence (CDIA) and associate researcher at the Millennium Nucleus MEPOP. He studies generative AI as the industrial revolution of our time — its effects on work, education, public debate and democracy — and has built national-scale data platforms used by millions.",
   image: "/carlos-navarrete.jpg",
   twitter: "@cnavarreteliz",
 };
@@ -31,7 +31,7 @@ const personJsonLd = {
       "@type": "Organization",
       name: "Centro de Datos e Inteligencia Artificial (CDIA), Universidad de Concepción",
       url: "https://cdia.udec.cl",
-      description: "Board member since 2026",
+      description: "Deputy Director (Subdirector)",
     },
     {
       "@type": "Organization",

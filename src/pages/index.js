@@ -1,13 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import AgentSwarm from "../components/AgentSwarm";
+import AgentTeam from "../components/AgentTeam";
 import {Seo} from "../components/Seo";
 import {useLanguage} from "../helpers/useLanguage";
 import {useReveal} from "../helpers/useReveal";
 import {columns, THEMES, formatDate, columnTitle} from "../data/columns";
 import {gallery} from "../data/gallery";
 import {engagements} from "../data/industry";
+import {news, KINDS, newsDate} from "../data/news";
 
 const t = {
   en: {
@@ -17,7 +18,7 @@ const t = {
     heroB: "and the future of society",
     heroNote: "Every industrial revolution rearranged who works, who decides, and who is left behind. This one is already under way.",
     aside: "the last revolution was understood a century too late",
-    bio: "Assistant Professor at the Faculty of Engineering, Universidad de Concepción, board member of its Center for Data and Artificial Intelligence (CDIA), and associate researcher at the Millennium Nucleus MEPOP.",
+    bio: "Assistant Professor at the Faculty of Engineering, Universidad de Concepción, deputy director of its Center for Data and Artificial Intelligence (CDIA), and associate researcher at the Millennium Nucleus MEPOP.",
     email: "Write to me",
     scholar: "Google Scholar",
 
@@ -40,22 +41,39 @@ const t = {
     latest: "most recent",
     allColumns: "All 17 columns",
 
-    trajLabel: "2014 — today",
+    trajLabel: "2016 — today",
+    trajLinkedIn: "Full career on LinkedIn",
     trajA: "From data",
     trajB: "to artificial intelligence",
 
-    methodLabel: "method",
-    methodA: "An army of agents",
-    methodB: "works the problem",
+    methodLabel: "AI-first",
+    methodA: "A team of agents",
+    methodB: "at the frontier of knowledge",
     methodIntro:
-      "A question arrives and it does not get attacked in a straight line. It is decomposed and handed to dozens of autonomous agents running in parallel — reading, extracting, contrasting, disagreeing — each reporting back only what survives its own scrutiny. What returns is not an answer but a field of evidence, and the work is deciding what it means.",
-    methodAside: "the same logic I study, turned on the studying",
-    methodVerbs: ["read", "extract", "contrast", "disagree", "synthesise"],
-    methodSwarm: {
-      question: "a question",
-      agents: "agents in parallel",
-      evidence: "evidence",
-      alt: "A question fanning out to a field of parallel autonomous agents, converging into evidence.",
+      "I work AI-first. Artificial intelligence does not come in at the end to polish the prose; it is the team the research is done with. An orchestrator breaks the question down and specialised agents work it in parallel — they read, analyse, challenge and verify one another — until only what held up is left. It means working where knowledge is moving: with tools that did not exist two years ago, on questions nobody has closed yet.",
+    methodAside: "the judgement is still human; the scale no longer is",
+    methodVerbs: ["orchestrate", "delegate", "challenge", "verify", "decide"],
+    methodTeam: {
+      nodes: {
+        orchestrator: "orchestrator",
+        reading: "reading",
+        analysis: "analysis",
+        critique: "critique",
+        verification: "verification",
+        writing: "writing",
+        human: "human\njudgement",
+      },
+      steps: [
+        "Gather everything published on generative AI and employment in Chile since 2023.",
+        "41 sources read. Three employment series are comparable with each other.",
+        "Hypothesis: the occupations most exposed to AI are growing more slowly.",
+        "What about the business cycle? Test it against unexposed sectors before claiming it.",
+        "Two figures don't match their official source. Flagged, not corrected.",
+        "Draft ready: every claim with its source, every doubt in plain sight.",
+      ],
+      logTitle: "session log",
+      logNote: "illustrative",
+      alt: "An orchestrator at the centre of six specialised agents — reading, analysis, critique, verification, writing and human judgement — passing work between them.",
     },
 
     linesLabel: "research lines",
@@ -93,6 +111,14 @@ const t = {
       "Taught with the same bias as everything above: advanced methods pointed at concrete problems.",
     allTeaching: "Course details",
 
+    newsLabel: "news",
+    newsA: "What I have been doing",
+    newsB: "and what I talk about",
+    newsIntro:
+      "Interviews, talks, courses and things built, as the press and the university reported them.",
+    newsMore: "Show everything",
+    newsLess: "Show less",
+
     ctaA: "Working on something",
     ctaB: "worth measuring?",
     ctaText:
@@ -108,7 +134,7 @@ const t = {
     heroB: "y el futuro de la sociedad",
     heroNote: "Toda revolución industrial reordenó quién trabaja, quién decide y quién queda atrás. Esta ya está ocurriendo.",
     aside: "la revolución anterior se entendió un siglo tarde",
-    bio: "Profesor Asistente de la Facultad de Ingeniería de la Universidad de Concepción, miembro del directorio de su Centro de Datos e Inteligencia Artificial (CDIA) e investigador adjunto del Núcleo Milenio MEPOP.",
+    bio: "Profesor Asistente de la Facultad de Ingeniería de la Universidad de Concepción, subdirector de su Centro de Datos e Inteligencia Artificial (CDIA) e investigador adjunto del Núcleo Milenio MEPOP.",
     email: "Escríbeme",
     scholar: "Google Scholar",
 
@@ -131,22 +157,39 @@ const t = {
     latest: "más recientes",
     allColumns: "Las 17 columnas",
 
-    trajLabel: "2014 — hoy",
+    trajLabel: "2016 — hoy",
+    trajLinkedIn: "Trayectoria completa en LinkedIn",
     trajA: "De los datos",
     trajB: "a la inteligencia artificial",
 
-    methodLabel: "método",
-    methodA: "Un ejército de agentes",
-    methodB: "trabaja el problema",
+    methodLabel: "AI-first",
+    methodA: "Un equipo de agentes",
+    methodB: "en la frontera del conocimiento",
     methodIntro:
-      "Llega una pregunta y no se ataca en línea recta. Se descompone y se reparte entre decenas de agentes autónomos que corren en paralelo — leyendo, extrayendo, contrastando, discrepando — y cada uno reporta solo lo que sobrevive a su propio escrutinio. Lo que vuelve no es una respuesta sino un campo de evidencia, y el trabajo es decidir qué significa.",
-    methodAside: "la misma lógica que estudio, apuntada a estudiarla",
-    methodVerbs: ["leen", "extraen", "contrastan", "discrepan", "sintetizan"],
-    methodSwarm: {
-      question: "una pregunta",
-      agents: "agentes en paralelo",
-      evidence: "evidencia",
-      alt: "Una pregunta que se abre hacia un campo de agentes autónomos en paralelo y converge en evidencia.",
+      "Trabajo AI-first. La inteligencia artificial no entra al final a pulir un texto: es el equipo con el que se hace la investigación. Un orquestador descompone la pregunta y agentes especializados la trabajan en paralelo —leen, analizan, se critican y se verifican entre sí— hasta que solo queda lo que resistió. Es trabajar donde el conocimiento se está moviendo: con herramientas que hace dos años no existían, sobre preguntas que nadie ha cerrado todavía.",
+    methodAside: "el criterio sigue siendo humano; la escala ya no",
+    methodVerbs: ["orquestar", "delegar", "cuestionar", "verificar", "decidir"],
+    methodTeam: {
+      nodes: {
+        orchestrator: "orquestador",
+        reading: "lectura",
+        analysis: "análisis",
+        critique: "crítica",
+        verification: "verificación",
+        writing: "redacción",
+        human: "criterio\nhumano",
+      },
+      steps: [
+        "Reúne todo lo publicado sobre IA generativa y empleo en Chile desde 2023.",
+        "41 fuentes leídas. Tres series de empleo son comparables entre sí.",
+        "Hipótesis: las ocupaciones más expuestas a la IA crecen menos.",
+        "¿Y el ciclo económico? Contrástalo con sectores no expuestos antes de afirmarlo.",
+        "Dos cifras no cuadran con su fuente oficial. Quedan marcadas, no corregidas.",
+        "Borrador listo: cada afirmación con su fuente, y cada duda a la vista.",
+      ],
+      logTitle: "registro de la sesión",
+      logNote: "ilustrativo",
+      alt: "Un orquestador al centro de seis agentes especializados —lectura, análisis, crítica, verificación, redacción y criterio humano— que se pasan el trabajo entre sí.",
     },
 
     linesLabel: "líneas de investigación",
@@ -184,6 +227,14 @@ const t = {
       "Dictados con el mismo sesgo que todo lo anterior: métodos avanzados apuntados a problemas concretos.",
     allTeaching: "Detalle de los cursos",
 
+    newsLabel: "noticias",
+    newsA: "Lo que ando haciendo",
+    newsB: "y de qué hablo",
+    newsIntro:
+      "Entrevistas, charlas, cursos y cosas construidas, tal como las contaron la prensa y la universidad.",
+    newsMore: "Ver todo",
+    newsLess: "Ver menos",
+
     ctaA: "¿Trabajas en algo",
     ctaB: "que valga la pena medir?",
     ctaText:
@@ -194,13 +245,31 @@ const t = {
   },
 };
 
-// `url` is only set where the site is verifiably still up. Several of these
-// domains have lapsed — constitutin.cl now redirects to a betting site — so the
-// rest are presented as milestones with no link at all.
+// `url` is only set where the site is verifiably still up. PuroChile lives at
+// purochile.ai (purochile.io is registered but had no DNS as of October 2026).
+// Several of the older domains have lapsed — constitutin.cl now redirects to a
+// betting site — so the rest are presented as milestones with no link at all.
 const work = {
   en: [
     {
       n: "01",
+      years: "2026",
+      title: "PuroChile",
+      meta: "A reconciliation protocol for AI agents",
+      text: "AI agents can read any number of sources in seconds; what they cannot do alone is reconcile them. PuroChile is a set of rules no step may skip: every figure is rebuilt from its parts, checked against what the official source published, and the difference declared when it does not match. It is developed at the CDIA, and Chile's public data is its first test.",
+      facts: [
+        "Country, 16 regions, 56 provinces, 346 communes",
+        "Census 2024 · Casen · SII · DEIS · Mineduc",
+        "Every check published next to the figure",
+        "Queryable from AI agents over MCP",
+      ],
+      state: "live",
+      url: "https://purochile.ai",
+      host: "purochile.ai",
+      fill: "mile--block mile--feature",
+    },
+    {
+      n: "02",
       years: "2017 — 2021",
       title: "DataChile",
       meta: "National open-data observatory",
@@ -209,16 +278,16 @@ const work = {
       fill: "",
     },
     {
-      n: "02",
+      n: "03",
       years: "2022",
       title: "MonProgramme 2022",
       meta: "French presidential election",
       text: "Citizens assembled their own government programme from more than a hundred candidate proposals. The participation data became the Nature Human Behaviour paper on political divisiveness.",
       state: "archived",
-      fill: "mile--block",
+      fill: "mile--mist",
     },
     {
-      n: "03",
+      n: "04",
       years: "2019",
       title: "Chilecracia",
       meta: "Chilean social outbreak",
@@ -227,16 +296,16 @@ const work = {
       fill: "",
     },
     {
-      n: "04",
+      n: "05",
       years: "2021",
       title: "Asuprioriza",
       meta: "Asunción, Paraguay",
-      text: "Built with ARCA Latam, ABC Digital and the Center for Collective Learning to find where residents of Asunción actually agree.",
+      text: "Built with ARCA Latam and ABC Digital to find where residents of Asunción actually agree.",
       state: "archived",
       fill: "mile--mist",
     },
     {
-      n: "05",
+      n: "06",
       years: "2021",
       title: "Constitutín",
       meta: "Chilean constitutional process",
@@ -245,7 +314,7 @@ const work = {
       fill: "",
     },
     {
-      n: "06",
+      n: "07",
       years: "ongoing",
       title: "AI World",
       meta: "Global AI capability mapping",
@@ -259,6 +328,23 @@ const work = {
   es: [
     {
       n: "01",
+      years: "2026",
+      title: "PuroChile",
+      meta: "Un protocolo de conciliación para agentes de IA",
+      text: "Un agente de IA puede leer cualquier número de fuentes en segundos; lo que no sabe hacer solo es conciliarlas. PuroChile es un conjunto de reglas que ningún paso se salta: cada cifra se reconstruye desde sus partes, se contrasta con lo que publicó la fuente oficial y se declara la diferencia cuando no cuadra. Lo desarrolla el CDIA, y los datos públicos de Chile son su primera prueba.",
+      facts: [
+        "País, 16 regiones, 56 provincias, 346 comunas",
+        "Censo 2024 · Casen · SII · DEIS · Mineduc",
+        "Cada verificación publicada junto a la cifra",
+        "Consultable desde agentes de IA vía MCP",
+      ],
+      state: "live",
+      url: "https://purochile.ai",
+      host: "purochile.ai",
+      fill: "mile--block mile--feature",
+    },
+    {
+      n: "02",
       years: "2017 — 2021",
       title: "DataChile",
       meta: "Observatorio nacional de datos abiertos",
@@ -267,16 +353,16 @@ const work = {
       fill: "",
     },
     {
-      n: "02",
+      n: "03",
       years: "2022",
       title: "MonProgramme 2022",
       meta: "Elección presidencial francesa",
       text: "Los ciudadanos armaron su propio programa de gobierno con más de cien propuestas de los candidatos. Los datos de participación se convirtieron en el paper de Nature Human Behaviour sobre divisividad política.",
       state: "archived",
-      fill: "mile--block",
+      fill: "mile--mist",
     },
     {
-      n: "03",
+      n: "04",
       years: "2019",
       title: "Chilecracia",
       meta: "Estallido social chileno",
@@ -285,16 +371,16 @@ const work = {
       fill: "",
     },
     {
-      n: "04",
+      n: "05",
       years: "2021",
       title: "Asuprioriza",
       meta: "Asunción, Paraguay",
-      text: "Construida con ARCA Latam, ABC Digital y el Center for Collective Learning para encontrar en qué están realmente de acuerdo los habitantes de Asunción.",
+      text: "Construida con ARCA Latam y ABC Digital para encontrar en qué están realmente de acuerdo los habitantes de Asunción.",
       state: "archived",
       fill: "mile--mist",
     },
     {
-      n: "05",
+      n: "06",
       years: "2021",
       title: "Constitutín",
       meta: "Proceso constituyente chileno",
@@ -303,7 +389,7 @@ const work = {
       fill: "",
     },
     {
-      n: "06",
+      n: "07",
       years: "vigente",
       title: "AI World",
       meta: "Mapa global de capacidades en IA",
@@ -373,26 +459,72 @@ const researchLines = {
   ],
 };
 
+// The timeline, in three eras. Facts come from the site's own record and from
+// the Faculty of Engineering's 2020 and 2022 profiles (fi.udec.cl).
 const trajectory = {
   en: [
-    {year: "2016", title: "Industrial Engineering, UdeC", text: "A thesis mapping the global cluster space from 1988 to 2014 — the first version of a question he is still asking.", fill: ""},
-    {year: "2019", title: "DataChile · Chilecracia", text: "Data products at national scale, and a platform measuring citizen priorities live during the social outbreak.", fill: "step--mist"},
-    {year: "2022", title: "MonProgramme · Research Policy", text: "A participation platform for the French election, and the science–technology cross-space study — now his most-cited paper.", fill: ""},
-    {year: "2023", title: "Ph.D. Toulouse · Nature", text: "Doctorate in Computer Science. The population-scale study of political divisiveness in France and Brazil appears in Nature Human Behaviour.", fill: "step--block"},
-    {year: "2024", title: "Faculty of Engineering, UdeC", text: "Joins Universidad de Concepción as Assistant Professor, teaching Data Visualization and Multivariate Statistics.", fill: "step--mist"},
-    {year: "2025", title: "Generative AI · MEPOP", text: "Designs and launches the Generative Artificial Intelligence course. Joins the Millennium Nucleus MEPOP.", fill: ""},
-    {year: "2026", title: "Board, CDIA", text: "Joins the board of the Center for Data and Artificial Intelligence at the Faculty of Engineering.", fill: ""},
-    {year: "2026", title: "A public voice", text: "Seventeen columns in El Mostrador on AI, work, education and democracy — research argued where it matters.", fill: "step--mist"},
+    {
+      era: "Data",
+      years: "2016 — 2018",
+      items: [
+        {year: "2016", title: "Industrial Engineering, UdeC", text: "A thesis with Pablo Catalán mapping the global cluster space from 1988 to 2014 — the first version of a question he is still asking. Research follows at the Center for Innovation Systems Studies (CIS2).", fill: ""},
+        {year: "2017", title: "DataChile", text: "Chile's open-data observatory goes live: economic, demographic and complexity profiles for every commune. Other national data platforms follow, among them one for the Government of Estonia.", fill: "mist"},
+      ],
+    },
+    {
+      era: "Digital democracy",
+      years: "2019 — 2023",
+      items: [
+        {year: "2019", title: "Chilecracia · Utrecht", text: "A platform that measured citizen priorities live during the social outbreak, and a research stay at Utrecht University.", fill: ""},
+        {year: "2020", title: "Ph.D. at ANITI, Toulouse", text: "Starts a doctorate at the Artificial and Natural Intelligence Toulouse Institute, on how AI can improve local and global governance: digital and augmented democracy.", fill: "mist"},
+        {year: "2021", title: "Asuprioriza · Constitutín", text: "Participation tools for Asunción, Paraguay, and for Chile's constitutional process.", fill: ""},
+        {year: "2022", title: "MonProgramme · Research Policy", text: "A participation platform for the French election, and the science–technology cross-space study — now his most-cited paper.", fill: "mist"},
+        {year: "2023", title: "Ph.D. Toulouse · Nature", text: "Doctorate in Computer Science. The population-scale study of political divisiveness in France and Brazil appears in Nature Human Behaviour.", fill: ""},
+      ],
+    },
+    {
+      era: "Artificial intelligence",
+      years: "2024 — today",
+      items: [
+        {year: "2024", title: "Faculty of Engineering, UdeC", text: "Joins Universidad de Concepción as Assistant Professor, teaching Data Visualization and Multivariate Statistics.", fill: "mist"},
+        {year: "2025", title: "Generative AI · MEPOP", text: "Designs and launches the Generative Artificial Intelligence course, joins the Millennium Nucleus MEPOP and receives a teaching distinction from the Faculty.", fill: ""},
+        {year: "2026", title: "Deputy Director, CDIA", text: "Becomes deputy director of the Center for Data and Artificial Intelligence at the Faculty of Engineering.", fill: "mist"},
+        {year: "2026", title: "PuroChile", text: "A protocol for AI agents to reconcile every figure with its official source, tested on Chile's public data.", fill: ""},
+        {year: "2026", title: "A public voice", text: "Seventeen columns in El Mostrador on AI, work, education and democracy — research argued where it matters.", fill: "block"},
+      ],
+    },
   ],
   es: [
-    {year: "2016", title: "Ingeniería Civil Industrial, UdeC", text: "Una tesis sobre la evolución del cluster space mundial entre 1988 y 2014 — la primera versión de una pregunta que todavía se hace.", fill: ""},
-    {year: "2019", title: "DataChile · Chilecracia", text: "Productos de datos a escala nacional, y una plataforma que midió prioridades ciudadanas en vivo durante el estallido social.", fill: "step--mist"},
-    {year: "2022", title: "MonProgramme · Research Policy", text: "Una plataforma de participación para la elección francesa, y el estudio del cross-space ciencia–tecnología — hoy su paper más citado.", fill: ""},
-    {year: "2023", title: "Doctorado Toulouse · Nature", text: "Doctorado en Informática. El estudio a escala poblacional sobre divisividad política en Francia y Brasil aparece en Nature Human Behaviour.", fill: "step--block"},
-    {year: "2024", title: "Facultad de Ingeniería, UdeC", text: "Se integra a la Universidad de Concepción como Profesor Asistente, dictando Visualización de Datos y Estadística Multivariada.", fill: "step--mist"},
-    {year: "2025", title: "IA Generativa · MEPOP", text: "Diseña y lanza el curso de Inteligencia Artificial Generativa. Se suma al Núcleo Milenio MEPOP.", fill: ""},
-    {year: "2026", title: "Directorio CDIA", text: "Se integra al directorio del Centro de Datos e Inteligencia Artificial de la Facultad de Ingeniería.", fill: ""},
-    {year: "2026", title: "Voz pública", text: "Diecisiete columnas en El Mostrador sobre IA, trabajo, educación y democracia — la investigación discutida donde importa.", fill: "step--mist"},
+    {
+      era: "Datos",
+      years: "2016 — 2018",
+      items: [
+        {year: "2016", title: "Ingeniería Civil Industrial, UdeC", text: "Una tesis con Pablo Catalán sobre la evolución del cluster space mundial entre 1988 y 2014 — la primera versión de una pregunta que todavía se hace. Sigue investigando en el Centro de Estudios de Sistemas de Innovación (CIS2).", fill: ""},
+        {year: "2017", title: "DataChile", text: "Sale a la luz el observatorio de datos abiertos de Chile: perfiles económicos, demográficos y de complejidad para cada comuna. Le siguen otras plataformas nacionales de datos, entre ellas una para el Gobierno de Estonia.", fill: "mist"},
+      ],
+    },
+    {
+      era: "Democracia digital",
+      years: "2019 — 2023",
+      items: [
+        {year: "2019", title: "Chilecracia · Utrecht", text: "Una plataforma que midió prioridades ciudadanas en vivo durante el estallido social, y una estadía de investigación en Utrecht University.", fill: ""},
+        {year: "2020", title: "Doctorado en ANITI, Toulouse", text: "Comienza el doctorado en el Artificial and Natural Intelligence Toulouse Institute, sobre cómo la IA puede mejorar la gobernanza local y global: democracia digital y aumentada.", fill: "mist"},
+        {year: "2021", title: "Asuprioriza · Constitutín", text: "Herramientas de participación para Asunción, Paraguay, y para el proceso constituyente chileno.", fill: ""},
+        {year: "2022", title: "MonProgramme · Research Policy", text: "Una plataforma de participación para la elección francesa, y el estudio del cross-space ciencia–tecnología — hoy su paper más citado.", fill: "mist"},
+        {year: "2023", title: "Doctorado Toulouse · Nature", text: "Doctorado en Informática. El estudio a escala poblacional sobre divisividad política en Francia y Brasil aparece en Nature Human Behaviour.", fill: ""},
+      ],
+    },
+    {
+      era: "Inteligencia artificial",
+      years: "2024 — hoy",
+      items: [
+        {year: "2024", title: "Facultad de Ingeniería, UdeC", text: "Se integra a la Universidad de Concepción como Profesor Asistente, dictando Visualización de Datos y Estadística Multivariada.", fill: "mist"},
+        {year: "2025", title: "IA Generativa · MEPOP", text: "Diseña y lanza el curso de Inteligencia Artificial Generativa, se suma al Núcleo Milenio MEPOP y recibe una distinción docente de la Facultad.", fill: ""},
+        {year: "2026", title: "Subdirector CDIA", text: "Asume como subdirector del Centro de Datos e Inteligencia Artificial de la Facultad de Ingeniería.", fill: "mist"},
+        {year: "2026", title: "PuroChile", text: "Un protocolo para que agentes de IA concilien cada cifra con su fuente oficial, probado sobre los datos públicos de Chile.", fill: ""},
+        {year: "2026", title: "Voz pública", text: "Diecisiete columnas en El Mostrador sobre IA, trabajo, educación y democracia — la investigación discutida donde importa.", fill: "block"},
+      ],
+    },
   ],
 };
 
@@ -447,6 +579,8 @@ function IndexPage() {
   useReveal();
   const c = t[language];
   const latest = columns.slice(0, 5);
+  const [allNews, setAllNews] = useState(false);
+  const shownNews = allNews ? news : news.slice(0, 6);
 
   return (
     <>
@@ -508,10 +642,11 @@ function IndexPage() {
             <img src="/carlos-navarrete.jpg" alt="Carlos Navarrete" width="1200" height="1200" loading="eager" />
             <div className="hero__figlinks">
               <a href="#lines" className="hero__figlink">{language === "es" ? "Investigación" : "Research"}</a>
-              <a href="#method" className="hero__figlink">{language === "es" ? "Método" : "Method"}</a>
+              <a href="#method" className="hero__figlink">AI-first</a>
               <a href="#work" className="hero__figlink">{language === "es" ? "Proyectos" : "Work"}</a>
               <a href="#writing" className="hero__figlink">{language === "es" ? "Columnas" : "Writing"}</a>
               <a href="#archive" className="hero__figlink">{language === "es" ? "Archivo" : "Archive"}</a>
+              <a href="#news" className="hero__figlink">{language === "es" ? "Noticias" : "News"}</a>
               <a href="/research/" className="hero__figlink">{language === "es" ? "Investigación" : "Research"}</a>
               <a href="/courses/" className="hero__figlink">{language === "es" ? "Docencia" : "Teaching"}</a>
             </div>
@@ -553,7 +688,7 @@ function IndexPage() {
 
             <div className="miles reveal">
               {work[language].map((p) => {
-                const inner = (
+                const body = (
                   <>
                     <div className="mile__num">{p.n}</div>
                     <div className="mile__year">{p.years}</div>
@@ -568,6 +703,17 @@ function IndexPage() {
                       <span className="mile__state">{c.archived}</span>
                     )}
                   </>
+                );
+                // The featured card puts its facts beside the description.
+                const inner = p.facts ? (
+                  <>
+                    <div className="mile__body">{body}</div>
+                    <ul className="mile__facts">
+                      {p.facts.map((f) => <li key={f}>{f}</li>)}
+                    </ul>
+                  </>
+                ) : (
+                  body
                 );
 
                 return p.url ? (
@@ -628,17 +774,50 @@ function IndexPage() {
             <div className="reveal">
               <Head2 label={c.trajLabel} a={c.trajA} b={c.trajB} />
             </div>
-            <div className="track reveal">
-              {trajectory[language].map((s, i) => (
-                <div className={`step ${s.fill}`.trim()} key={s.year + s.title}>
-                  <span className="step__ghost" aria-hidden="true">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div className="step__year">{s.year}</div>
-                  <h3 className="step__title">{s.title}</h3>
-                  <p className="step__text">{s.text}</p>
-                </div>
-              ))}
+            <ol className="tl reveal">
+              {trajectory[language].map((era, e) => {
+                // Sides alternate across the whole run, not per era.
+                const offset = trajectory[language]
+                  .slice(0, e)
+                  .reduce((n, prev) => n + prev.items.length, 0);
+                return (
+                  <li className="tl__era" key={era.era}>
+                    <div className="tl__erahead">
+                      <span className="tl__chip">
+                        <span className="tl__chipname">{era.era}</span>
+                        <span className="tl__chipyears">{era.years}</span>
+                      </span>
+                    </div>
+                    <ol className="tl__items">
+                      {era.items.map((s, i) => {
+                        const side = (offset + i) % 2 === 0 ? "left" : "right";
+                        const fill = s.fill ? ` tl__item--${s.fill}` : "";
+                        return (
+                          <li className={`tl__item tl__item--${side}${fill}`} key={s.year + s.title}>
+                            <span className="tl__dot" aria-hidden="true" />
+                            <div className="tl__card">
+                              <div className="tl__year">{s.year}</div>
+                              <h3 className="tl__title">{s.title}</h3>
+                              <p className="tl__text">{s.text}</p>
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </ol>
+                  </li>
+                );
+              })}
+            </ol>
+
+            <div style={{marginTop: "2.5rem", textAlign: "center"}} className="reveal">
+              <a
+                href="https://www.linkedin.com/in/cnavarreteliz/"
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn--ghost"
+              >
+                {c.trajLinkedIn} ↗
+              </a>
             </div>
           </div>
         </section>
@@ -670,7 +849,7 @@ function IndexPage() {
           </div>
         </section>
 
-        {/* ── Method: the agent swarm ────────────────────────────────────── */}
+        {/* ── AI-first: a team of agents ─────────────────────────────────── */}
         <section id="method" className="section band-agents" style={{scrollMarginTop: "4rem"}}>
           <div className="wrap">
             <div className="reveal" style={{textAlign: "center"}}>
@@ -688,8 +867,8 @@ function IndexPage() {
             </div>
 
             <div className="reveal">
-              <AgentSwarm labels={c.methodSwarm} />
-              <div className="swarm-verbs">
+              <AgentTeam labels={c.methodTeam} />
+              <div className="team-verbs">
                 {c.methodVerbs.map((v) => (
                   <span key={v}>{v}</span>
                 ))}
@@ -835,6 +1014,52 @@ function IndexPage() {
                 {c.allTeaching} <span className="arrow">→</span>
               </a>
             </div>
+          </div>
+        </section>
+
+        {/* ── News: talks, interviews, things done ───────────────────────── */}
+        <section id="news" className="section" style={{scrollMarginTop: "5rem"}}>
+          <div className="wrap wrap--narrow">
+            <div className="reveal">
+              <Head2 label={c.newsLabel} a={c.newsA} b={c.newsB} />
+              <p className="t-body" style={{maxWidth: "58ch", margin: "0 auto 2.5rem", textAlign: "center"}}>
+                {c.newsIntro}
+              </p>
+            </div>
+
+            <div className="rows reveal">
+              {shownNews.map((item) => (
+                <a
+                  key={item.url + item.date}
+                  href={item.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="row row--news"
+                >
+                  <span className="row__date">{newsDate(item.date, language)}</span>
+                  <span className="row__title">{item[language].title}</span>
+                  <span className="row__meta">
+                    <span className="row__kind">{KINDS[item.kind][language]}</span>
+                    {item.outlet} <span className="row__go">↗</span>
+                  </span>
+                  <span className="row__note">{item[language].note}</span>
+                </a>
+              ))}
+            </div>
+
+            {news.length > 6 && (
+              <div style={{marginTop: "2rem", textAlign: "center"}}>
+                <button
+                  type="button"
+                  className="btn btn--ghost"
+                  aria-expanded={allNews}
+                  onClick={() => setAllNews((v) => !v)}
+                >
+                  {allNews ? c.newsLess : `${c.newsMore} (${news.length})`}
+                  <span className="arrow">{allNews ? "↑" : "↓"}</span>
+                </button>
+              </div>
+            )}
           </div>
         </section>
 

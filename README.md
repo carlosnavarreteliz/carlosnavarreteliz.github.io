@@ -1,7 +1,7 @@
 # carlosnavarrete.cl
 
 Personal academic site of **Dr. Eng. Carlos Navarrete** — Faculty of Engineering,
-Universidad de Concepción · Board Member, CDIA.
+Universidad de Concepción · Deputy Director, CDIA.
 Computational social science · generative AI · complex systems.
 
 Built with [Gatsby 5](https://www.gatsbyjs.com), React, Tailwind CSS v4, Sass.

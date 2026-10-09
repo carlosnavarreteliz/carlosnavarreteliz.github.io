@@ -78,4 +78,8 @@ const NotFoundPage = () => {
 
 export default NotFoundPage;
 
-export const Head = () => <Seo title="404" pathname="/404/" />;
+export const Head = () => (
+  <Seo title="404" pathname="/404/">
+    <meta name="robots" content="noindex, follow" />
+  </Seo>
+);

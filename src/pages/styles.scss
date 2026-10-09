@@ -613,6 +613,54 @@ a.mile:hover .mile__foot .arrow {
   }
 }
 
+// The current project leads the grid at full width, description on the left
+// and its facts on the right.
+.mile--feature {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 1.5rem 3rem;
+  min-height: 0;
+
+  @media (min-width: 860px) {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .mile__body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mile__title {
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+  }
+
+  .mile__text {
+    max-width: 62ch;
+  }
+
+  .mile__foot {
+    color: $accent-wash;
+  }
+}
+
+.mile__facts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid $line-ink;
+
+  li {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid $line-ink;
+    font-family: $font-accent;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.35;
+    color: $block-text;
+  }
+}
+
 /* ── Photographic archive ─────────────────────────────────────────────────── */
 
 .gallery {
@@ -660,6 +708,20 @@ a.mile:hover .mile__foot .arrow {
   aspect-ratio: 16 / 10;
 }
 
+// On the four-column grid a single shares its row with a wide shot, so it
+// takes the row's height instead of its own ratio — otherwise the two ratios
+// leave the singles a few pixels short.
+@media (min-width: 900px) {
+  .shot:not(.shot--wide) {
+    aspect-ratio: auto;
+
+    img {
+      position: absolute;
+      inset: 0;
+    }
+  }
+}
+
 .shot__cap {
   position: absolute;
   z-index: 1;
@@ -695,7 +757,7 @@ a.mile:hover .mile__foot .arrow {
 
 // A text tile that fills the grid and invites the rest of the archive.
 .shot-note {
-  grid-column: span 2;
+  grid-column: 1 / -1;
   border-radius: $radius;
   background: $card;
   border: 1px solid $line-soft;
@@ -737,106 +799,225 @@ a.mile:hover .mile__foot .arrow {
   margin-bottom: 0.3rem;
 }
 
-/* ── Timeline milestones (the trajectory) ─────────────────────────────────── */
+/* ── Timeline (the trajectory) ────────────────────────────────────────────── */
 
-.track {
+// One spine running from data (pale) to artificial intelligence (deep), with
+// the milestones hanging off it — on the left rail on a phone, alternating
+// either side of a centred spine from 860px up.
+
+.tl {
   position: relative;
-  display: grid;
-  gap: 14px;
-  grid-template-columns: minmax(0, 1fr);
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 1040px;
 
-  @media (min-width: 760px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    left: 11px;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(to bottom, $mist, $accent 62%, $block);
 
-  @media (min-width: 1080px) {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    @media (min-width: 860px) {
+      left: 50%;
+      transform: translateX(-1px);
+    }
   }
 }
 
-.step {
+.tl__era {
   position: relative;
-  border-radius: $radius;
-  padding: 1.5rem 1.35rem 1.6rem;
+}
+
+.tl__erahead {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  padding: 1.4rem 0 1.1rem 2.4rem;
+
+  @media (min-width: 860px) {
+    justify-content: center;
+    padding: 2.2rem 0 1.6rem;
+  }
+}
+
+.tl__chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
   background: $card;
-  border: 1px solid $line-soft;
-  overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 16px 34px rgba(20, 33, 46, 0.09);
-  }
+  border: 1px solid $line;
+  box-shadow: 0 6px 18px rgba(20, 33, 46, 0.05);
 }
 
-// The oversized ghosted year, as the reference does with 01 02 03 04.
-.step__ghost {
-  position: absolute;
-  top: -0.3em;
-  right: 0.08em;
-  font-family: $font-display;
-  font-weight: 500;
-  font-size: 4.2rem;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  color: rgba(46, 111, 158, 0.09);
-  pointer-events: none;
-  user-select: none;
+.tl__chipname {
+  font-family: $font-mono;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $deep;
 }
 
-.step--mist {
-  background: $mist;
-  border-color: transparent;
-
-  .step__ghost {
-    color: rgba(27, 48, 73, 0.1);
-  }
+.tl__chipyears {
+  font-family: $font-accent;
+  font-style: italic;
+  font-size: 1rem;
+  color: $accent;
 }
 
-.step--block {
+.tl__era:last-child .tl__chip {
   background: $block;
   border-color: transparent;
 
-  .step__title {
+  .tl__chipname {
     color: #fff;
   }
 
-  .step__text {
-    color: $block-text;
-  }
-
-  .step__ghost {
-    color: rgba(255, 255, 255, 0.1);
-  }
-
-  .step__year {
+  .tl__chipyears {
     color: $accent-wash;
   }
 }
 
-.step__year {
+.tl__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tl__item {
   position: relative;
+  padding: 0 0 0.9rem 2.4rem;
+
+  @media (min-width: 860px) {
+    width: 50%;
+    padding: 0 2.6rem 1.1rem 0;
+
+    // Interleave the two sides so the spine reads as one continuous run
+    // rather than a zigzag with gaps.
+    & + & {
+      margin-top: -4.5rem;
+    }
+  }
+}
+
+.tl__item--right {
+  @media (min-width: 860px) {
+    margin-left: 50%;
+    padding: 0 0 1.1rem 2.6rem;
+  }
+}
+
+.tl__dot {
+  position: absolute;
+  top: 1.55rem;
+  left: 5px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: $card;
+  border: 2px solid $accent;
+  z-index: 1;
+
+  @media (min-width: 860px) {
+    left: auto;
+    right: -7px;
+
+    .tl__item--right & {
+      right: auto;
+      left: -7px;
+    }
+  }
+}
+
+// A hairline from the dot to its card, on the wide layout only.
+.tl__item::after {
+  @media (min-width: 860px) {
+    content: "";
+    position: absolute;
+    top: calc(1.55rem + 6px);
+    right: 7px;
+    width: calc(2.6rem - 7px);
+    height: 1px;
+    background: $line;
+  }
+}
+
+.tl__item--right::after {
+  @media (min-width: 860px) {
+    right: auto;
+    left: 7px;
+  }
+}
+
+.tl__card {
+  border-radius: $radius;
+  padding: 1.2rem 1.35rem 1.3rem;
+  background: $card;
+  border: 1px solid $line-soft;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(20, 33, 46, 0.08);
+  }
+}
+
+.tl__item--mist .tl__card {
+  background: $mist;
+  border-color: transparent;
+}
+
+.tl__item--block {
+  .tl__card {
+    background: $block;
+    border-color: transparent;
+  }
+
+  .tl__title {
+    color: #fff;
+  }
+
+  .tl__text {
+    color: $block-text;
+  }
+
+  .tl__year {
+    color: $accent-wash;
+  }
+
+  .tl__dot {
+    background: $block;
+    border-color: $accent-wash;
+  }
+}
+
+.tl__year {
   font-family: $font-accent;
   font-style: italic;
-  font-size: 1.2rem;
+  font-size: 1.45rem;
+  line-height: 1;
   color: $accent;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.55rem;
 }
 
-.step__title {
-  position: relative;
+.tl__title {
   font-family: $font-display;
   font-weight: 500;
-  font-size: 1.05rem;
-  line-height: 1.24;
+  font-size: 1.06rem;
+  line-height: 1.25;
   letter-spacing: -0.012em;
   color: $deep;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.45rem;
 }
 
-.step__text {
-  position: relative;
-  font-size: 0.875rem;
+.tl__text {
+  font-size: 0.9rem;
   line-height: 1.6;
   color: $slate;
 }
@@ -878,6 +1059,42 @@ a.mile:hover .mile__foot .arrow {
 .row--paper {
   @media (min-width: 860px) {
     grid-template-columns: 96px minmax(0, 1fr) 200px;
+  }
+}
+
+.row--news {
+  @media (min-width: 860px) {
+    grid-template-columns: 118px minmax(0, 1fr) 190px;
+  }
+
+  .row__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.6rem;
+
+    // Kind above outlet, spanning the title and the note, so a long outlet
+    // name wraps inside its own column instead of pushing the note down.
+    @media (min-width: 860px) {
+      grid-row: 1 / span 2;
+      grid-column: 3;
+      align-self: start;
+      flex-direction: column;
+      align-items: flex-end;
+      line-height: 1.6;
+    }
+  }
+}
+
+// What kind of thing it was — interview, talk, course — in the accent hue.
+.row__kind {
+  color: $accent;
+
+  @media (max-width: 859px) {
+    &::after {
+      content: " /";
+      color: $accent-wash;
+    }
   }
 }
 
@@ -1002,7 +1219,7 @@ a.mile:hover .mile__foot .arrow {
   }
 }
 
-/* ── Agent swarm ──────────────────────────────────────────────────────────── */
+/* ── AI-first: the agent team ─────────────────────────────────────────────── */
 
 .band-agents {
   background: $block;
@@ -1015,146 +1232,291 @@ a.mile:hover .mile__foot .arrow {
   }
 }
 
-.swarm {
+.team {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 3rem);
   margin-top: clamp(2rem, 4vw, 3rem);
+
+  @media (min-width: 960px) {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: center;
+  }
 }
 
-.swarm__svg {
+.team__svg {
   display: block;
   width: 100%;
   height: auto;
-  overflow: visible;
+  max-width: 620px;
+  margin-inline: auto;
 }
 
-// One geometry or the other, never both.
-.swarm__svg--narrow {
-  display: none;
+.team__edge {
+  stroke: rgba(255, 255, 255, 0.14);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
 }
 
-@media (max-width: 760px) {
-  .swarm__svg--wide {
-    display: none;
-  }
-
-  .swarm__svg--narrow {
-    display: block;
-  }
+.team__hotline {
+  stroke: $accent-wash;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
 }
 
-// Dashed wires read as packets streaming between stages.
-.swarm__wire {
+.team__ping {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.28);
-  stroke-width: 1.1;
-  stroke-dasharray: 3 10;
-  animation: swarm-flow 2.6s linear infinite;
+  stroke: rgba(197, 220, 238, 0.7);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
 }
 
-.swarm__wire--out {
-  stroke: rgba(110, 168, 207, 0.55);
+// Per-step pieces stay hidden until their keyframes bring them in.
+.team__hot,
+.team__pkt {
+  opacity: 0;
 }
 
-@keyframes swarm-flow {
-  to {
-    stroke-dashoffset: -26;
-  }
-}
-
-.swarm__agent {
-  animation: swarm-pulse 3s ease-in-out infinite;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.swarm__dot {
-  fill: $accent-wash;
-}
-
-.swarm__halo {
-  fill: rgba(110, 168, 207, 0.13);
-}
-
-@keyframes swarm-pulse {
-  0%,
-  100% {
-    opacity: 0.32;
-    transform: scale(0.82);
-  }
-
-  45% {
-    opacity: 1;
-    transform: scale(1.12);
-  }
-}
-
-.swarm__ring {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.42);
-  stroke-width: 1.2;
-  animation: swarm-breathe 3.4s ease-in-out infinite;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.swarm__core {
+.team__pkt {
   fill: #fff;
 }
 
-.swarm__end--sink .swarm__core {
+.team__node {
+  animation: team-breathe 3.6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.team__dot {
   fill: $accent-wash;
 }
 
-@keyframes swarm-breathe {
+.team__halo {
+  fill: rgba(110, 168, 207, 0.14);
+}
+
+.team__ring {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.45);
+  stroke-width: 1.3;
+  vector-effect: non-scaling-stroke;
+}
+
+.team__core {
+  fill: #fff;
+}
+
+.team__humanring {
+  fill: $block;
+  stroke: #fff;
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+}
+
+.team__humancore {
+  fill: #fff;
+}
+
+.team__label {
+  // A dark outline keeps a label legible where it crosses an edge.
+  paint-order: stroke;
+  stroke: $block;
+  stroke-width: 6px;
+  stroke-linejoin: round;
+  font-family: $font-mono;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  fill: $block-haze;
+
+  // The diagram scales down to roughly half size on a phone; the labels are
+  // set larger there so they land near 11px on screen.
+  @media (max-width: 640px) {
+    font-size: 20px;
+    letter-spacing: 0.06em;
+  }
+}
+
+@keyframes team-breathe {
   0%,
   100% {
-    opacity: 0.45;
-    transform: scale(0.94);
+    opacity: 0.6;
+    transform: scale(0.92);
   }
 
   50% {
     opacity: 1;
-    transform: scale(1.08);
+    transform: scale(1.06);
   }
 }
 
-.swarm__legend {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
-  margin-top: 1.2rem;
-
-  @media (max-width: 760px) {
-    margin-top: 0.6rem;
-  }
+// The session log: one message per step, landing as its packet arrives.
+.team__log {
+  border-radius: $radius-lg;
+  border: 1px solid $line-ink;
+  background: rgba(255, 255, 255, 0.035);
+  padding: clamp(1.2rem, 2.4vw, 1.6rem);
 }
 
-.swarm__label {
+.team__loghead {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid $line-ink;
   font-family: $font-mono;
   font-size: 0.625rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: $block-haze;
-  text-align: center;
-
-  &:first-child {
-    text-align: left;
-  }
-
-  &:last-child {
-    text-align: right;
-  }
-}
-
-.swarm__label--mid {
   color: $accent-wash;
 }
 
-.swarm-verbs {
+.team__lognote {
+  color: $block-haze;
+}
+
+.team__msgs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.team__msg {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid $line-ink;
+
+  &:last-child {
+    border-bottom: 0;
+    padding-bottom: 0.1rem;
+  }
+}
+
+.team__route {
+  font-family: $font-mono;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6fa8cf;
+  margin-bottom: 0.3rem;
+
+  span {
+    color: $block-haze;
+  }
+}
+
+.team__text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: $block-text;
+}
+
+.team__msg--human .team__text {
+  color: #fff;
+}
+
+// One set of keyframes per step. Each step owns a 15% slot of the cycle: its
+// edge lights, its packet crosses, its message lands and stays until the
+// whole session fades together and starts again.
+$team-cycle: 18s;
+$team-slot: 15%;
+
+@for $i from 0 through 5 {
+  $s: $i * $team-slot;
+
+  @keyframes team-msg-#{$i} {
+    0%,
+    #{$s + 4%} {
+      opacity: 0.12;
+      transform: translateY(6px);
+    }
+
+    #{$s + 7%},
+    94% {
+      opacity: 1;
+      transform: none;
+    }
+
+    100% {
+      opacity: 0.12;
+      transform: none;
+    }
+  }
+
+  @keyframes team-pkt-#{$i} {
+    0%,
+    #{$s} {
+      opacity: 0;
+      transform: translate(0, 0);
+    }
+
+    #{$s + 0.6%} {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+
+    #{$s + 6%} {
+      opacity: 1;
+      transform: translate(var(--dx), var(--dy));
+    }
+
+    #{$s + 7%},
+    100% {
+      opacity: 0;
+      transform: translate(var(--dx), var(--dy));
+    }
+  }
+
+  @keyframes team-hot-#{$i} {
+    0%,
+    #{$s} {
+      opacity: 0;
+    }
+
+    #{$s + 1%},
+    #{$s + 9%} {
+      opacity: 1;
+    }
+
+    #{$s + 14%},
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .team__msg--#{$i} {
+    animation: team-msg-#{$i} $team-cycle ease infinite both;
+  }
+
+  .team__pkt--#{$i} {
+    animation: team-pkt-#{$i} $team-cycle cubic-bezier(0.45, 0, 0.25, 1) infinite both;
+  }
+
+  .team__hot--#{$i} {
+    animation: team-hot-#{$i} $team-cycle ease infinite both;
+  }
+}
+
+// Without motion, the session is shown as a finished log.
+@media (prefers-reduced-motion: reduce) {
+  .team__msg,
+  .team__node {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  .team__pkt,
+  .team__hot {
+    animation: none !important;
+    opacity: 0;
+  }
+}
+
+.team-verbs {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.4rem 1.1rem;
-  margin-top: 1.6rem;
+  margin-top: 2rem;
   font-family: $font-accent;
   font-style: italic;
   font-size: 1.02rem;

@@ -4,7 +4,7 @@ import Logo from "./Logo";
 const t = {
   en: {
     role: "Assistant Professor, Faculty of Engineering",
-    affil: "Universidad de Concepción · Board, CDIA · Millennium Nucleus MEPOP",
+    affil: "Universidad de Concepción · Deputy Director, CDIA · Millennium Nucleus MEPOP",
     elsewhere: "Elsewhere",
     nav: "Site",
     links: [
@@ -17,7 +17,7 @@ const t = {
   },
   es: {
     role: "Profesor Asistente, Facultad de Ingeniería",
-    affil: "Universidad de Concepción · Directorio CDIA · Núcleo Milenio MEPOP",
+    affil: "Universidad de Concepción · Subdirector CDIA · Núcleo Milenio MEPOP",
     elsewhere: "En otros lugares",
     nav: "Sitio",
     links: [
