@@ -24,16 +24,20 @@ pnpm lint       # eslint (flat config)
 pnpm clean      # gatsby clean
 ```
 
-## Deploy (GCP, e2-micro free tier)
+## Deploy (GitHub Pages)
 
-The site is a static build (`public/`). Production serves it with Nginx + HTTPS
-on a single `e2-micro` VM. Full guide: [`deploy/README.md`](deploy/README.md).
+The site is a static build (`public/`) served by GitHub Pages from the
+`gh-pages` branch at https://carlosnavarrete.cl. The site is no longer
+deployed to GCP.
 
 ```shell
-pnpm deploy:gcp   # build + rsync public/ to the VM (see deploy/deploy.sh)
+pnpm deploy:pages   # clean build + force-push public/ to gh-pages (deploy/gh-pages.sh)
 ```
 
-DNS (`nic.cl`): two `A` records → the VM's reserved external IP (see deploy guide).
+`static/CNAME` sets the custom domain; `static/.nojekyll` stops Jekyll from
+dropping `_gatsby/`. DNS: apex `A` records → GitHub Pages
+(185.199.108.153, .109.153, .110.153, .111.153) and `www` `CNAME` →
+`carlosnavarreteliz.github.io`.
 
 ## Notas
 

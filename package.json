@@ -21,7 +21,7 @@
     "clean": "gatsby clean",
     "lint": "eslint .",
     "build:clean": "gatsby clean && gatsby build",
-    "deploy:gcp": "bash deploy/deploy.sh"
+    "deploy:pages": "bash deploy/gh-pages.sh"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.18",
